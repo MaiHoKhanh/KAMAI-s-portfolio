@@ -1,0 +1,1389 @@
+
+//star sec 1
+const starsContainer = document.querySelector(".hero .stars");
+
+const STAR_COUNT = 70;
+
+for (let i = 0; i < STAR_COUNT; i++) {
+
+    const star = document.createElement("div");
+    star.classList.add("star");
+
+    star.style.left = Math.random() * 100 + "%";
+    star.style.top = Math.random() * 100 + "%";
+
+    const size = Math.random() < 0.75
+        ? 3
+        : Math.random() * 5 + 3;
+
+    star.style.width = size + "px";
+    star.style.height = size + "px";
+
+    star.style.setProperty(
+        "--moveX",
+        (Math.random() * 30 - 15) + "px"
+    );
+
+    star.style.setProperty(
+        "--moveY",
+        (Math.random() * 30 - 15) + "px"
+    );
+
+    star.style.setProperty(
+        "--duration",
+        (4 + Math.random() * 3) + "s"
+    );
+
+    star.style.setProperty(
+        "--blink",
+        (2 + Math.random() * 4) + "s"
+    );
+
+    star.style.animationDelay =
+        Math.random() * 3 + "s";
+
+    starsContainer.appendChild(star);
+}
+// stars sec 2
+const section2Stars =
+    document.querySelector(".section2-stars");
+
+const SECTION2_STAR_COUNT = 50;
+
+for (let i = 0; i < SECTION2_STAR_COUNT; i++) {
+
+    const star = document.createElement("div");
+
+    star.classList.add("section2-star");
+
+    /* Vị trí random */
+
+    star.style.left =
+        Math.random() * 100 + "%";
+
+    star.style.top =
+        Math.random() * 100 + "%";
+
+
+    /* Kích thước pixel */
+
+    const size =
+        Math.random() < 0.8
+            ? 3
+            : Math.random() * 4 + 3;
+
+    star.style.width = size + "px";
+    star.style.height = size + "px";
+
+
+    /* Hướng di chuyển */
+
+    star.style.setProperty(
+        "--moveX",
+        (Math.random() * 24 - 12) + "px"
+    );
+
+    star.style.setProperty(
+        "--moveY",
+        (Math.random() * 24 - 12) + "px"
+    );
+
+
+    /* Tốc độ */
+
+    star.style.setProperty(
+        "--duration",
+        (3 + Math.random() * 4) + "s"
+    );
+
+    star.style.setProperty(
+        "--blink",
+        (1.5 + Math.random() * 3) + "s"
+    );
+
+
+    /* Random thời điểm bắt đầu */
+
+    star.style.animationDelay =
+        Math.random() * 4 + "s";
+
+
+    section2Stars.appendChild(star);
+}
+//fall animation sec 2
+/* =====================================================
+   SECTION 2 PHYSICS
+===================================================== */
+
+const subhero = document.querySelector(".subhero");
+
+const blockSelectors = [
+    ".block1",
+    ".block2",
+    ".block3",
+    ".block4",
+    ".block5",
+    ".block6",
+    ".block7"
+];
+
+const physicsBlocks = [];
+
+let physicsStarted = false;
+
+
+/* =====================================================
+   SETTINGS
+===================================================== */
+
+const GRAVITY = 0.65;
+
+const BOUNCE = 0.38;
+
+const AIR_RESISTANCE = 0.985;
+
+const ROTATION_FRICTION = 0.96;
+
+const MAX_ROTATION = 12;
+
+
+/* =====================================================
+   INTERSECTION OBSERVER
+===================================================== */
+
+const sectionObserver =
+    new IntersectionObserver(
+
+        (entries) => {
+
+            entries.forEach(entry => {
+
+                if (
+                    entry.isIntersecting &&
+                    !physicsStarted
+                ) {
+
+                    physicsStarted = true;
+
+                    startPhysics();
+                }
+
+            });
+
+        },
+
+        {
+            threshold: 0.15
+        }
+    );
+
+
+sectionObserver.observe(subhero);
+
+
+/* =====================================================
+   START PHYSICS
+===================================================== */
+
+function startPhysics() {
+
+    physicsBlocks.length = 0;
+
+    blockSelectors.forEach(
+        (selector, index) => {
+
+            const element =
+                subhero.querySelector(selector);
+
+            if (!element) return;
+
+            const rect =
+                element.getBoundingClientRect();
+
+            const sectionWidth =
+                subhero.clientWidth;
+
+
+            const width =
+                rect.width;
+
+
+            const computed =
+                getComputedStyle(element);
+
+
+            let x =
+                parseFloat(computed.left);
+
+
+            /*
+             * Nếu left là %
+             */
+
+            if (
+                computed.left.includes("%")
+            ) {
+
+                x =
+                    sectionWidth *
+                    parseFloat(computed.left) /
+                    100;
+            }
+
+
+            /*
+             * Không cho x vượt section
+             */
+
+            x = Math.max(
+                0,
+                Math.min(
+                    x,
+                    sectionWidth - width
+                )
+            );
+
+
+            const floor =
+                subhero.clientHeight -
+                rect.height;
+
+
+            const block = {
+
+                element: element,
+
+                width: rect.width,
+
+                height: rect.height,
+
+
+                /* vị trí */
+
+                x: x,
+
+                y: -rect.height - 100,
+
+
+                /* vị trí đáy */
+
+                floor: floor,
+
+
+                /* vận tốc */
+
+                velocityX: 0,
+
+                velocityY:
+                    2 + index * 0.4,
+
+
+                /* rotation */
+
+                rotation:
+                    (Math.random() * 10) - 5,
+
+                velocityRotation:
+                    (Math.random() * 2) - 1,
+
+
+                /* state */
+
+                dragging: false,
+
+                landed: false,
+
+                released: false,
+
+
+                /* delay */
+
+                startTime:
+                    performance.now() +
+                    index * 180
+            };
+
+
+            physicsBlocks.push(block);
+
+
+   
+
+            element.style.animation =
+                "none";
+
+
+
+            element.style.opacity =
+                "1";
+
+
+     
+
+            renderBlock(block);
+
+
+            setupDrag(block);
+        }
+    );
+
+
+    requestAnimationFrame(
+        updatePhysics
+    );
+}
+
+
+/* =====================================================
+   PHYSICS LOOP
+===================================================== */
+
+let previousTime =
+    performance.now();
+
+
+function updatePhysics(time) {
+
+    const delta =
+        Math.min(
+            (time - previousTime) / 16.67,
+            2
+        );
+
+
+    previousTime = time;
+
+
+    const sectionWidth =
+        subhero.clientWidth;
+
+
+    const sectionHeight =
+        subhero.clientHeight;
+
+
+    physicsBlocks.forEach(block => {
+
+
+        /*
+         * Delay lúc bắt đầu rơi
+         */
+
+        if (
+            time <
+            block.startTime
+        ) {
+
+            return;
+        }
+
+
+        /*
+         * Nếu đang drag
+         */
+
+        if (block.dragging) {
+
+            renderBlock(block);
+
+            return;
+        }
+
+
+        /*
+         * Nếu đã nằm yên
+         */
+
+        if (block.landed) {
+
+            renderBlock(block);
+
+            return;
+        }
+
+
+        /* =================================================
+           GRAVITY
+        ================================================= */
+
+        block.velocityY +=
+            GRAVITY * delta;
+
+
+        /*
+         * Air resistance
+         */
+
+        block.velocityX *=
+            Math.pow(
+                AIR_RESISTANCE,
+                delta
+            );
+
+
+        /*
+         * Move
+         */
+
+        block.x +=
+            block.velocityX * delta;
+
+
+        block.y +=
+            block.velocityY * delta;
+
+
+        /*
+         * Rotation
+         */
+
+        block.rotation +=
+            block.velocityRotation * delta;
+
+
+        block.velocityRotation *=
+            Math.pow(
+                ROTATION_FRICTION,
+                delta
+            );
+
+
+        /* =================================================
+           LEFT WALL
+        ================================================= */
+
+        if (block.x < 0) {
+
+            block.x = 0;
+
+            block.velocityX *= -0.45;
+
+            block.velocityRotation *= -0.5;
+        }
+
+
+        /* =================================================
+           RIGHT WALL
+        ================================================= */
+
+        const maxX =
+            sectionWidth -
+            block.width;
+
+
+        if (block.x > maxX) {
+
+            block.x = maxX;
+
+            block.velocityX *= -0.45;
+
+            block.velocityRotation *= -0.5;
+        }
+
+
+        /* =================================================
+           FLOOR
+        ================================================= */
+
+        /*
+         * đảm bảo block
+         * ko rơi xuống footer.
+         */
+
+        const floor =
+            sectionHeight -
+            block.height;
+
+
+        if (
+            block.y >= floor
+        ) {
+
+            /*
+             * Ép block về đúng đáy
+             */
+
+            block.y = floor;
+
+
+            /*
+             * Bounce
+             */
+
+            block.velocityY *=
+                -BOUNCE;
+
+
+            /*
+             * Giảm horizontal velocity
+             */
+
+            block.velocityX *=
+                0.72;
+
+
+            /*
+             * Giảm rotation
+             */
+
+            block.velocityRotation *=
+                0.45;
+
+
+            /*
+             * Nếu bounce quá nhỏ
+             * → đứng yên
+             */
+
+            if (
+                Math.abs(
+                    block.velocityY
+                ) < 2
+            ) {
+
+                block.velocityY = 0;
+
+                block.velocityX = 0;
+
+                block.velocityRotation = 0;
+
+                block.rotation = 0;
+
+                block.landed = true;
+            }
+        }
+
+
+        /* =================================================
+           SAFETY LIMIT
+        ================================================= */
+
+
+        if (
+            block.y >
+            floor
+        ) {
+
+            block.y = floor;
+
+            block.velocityY = 0;
+        }
+
+
+        if (
+            block.y < 0 &&
+            block.velocityY < 0
+        ) {
+
+            block.y = 0;
+
+            block.velocityY *= -0.2;
+        }
+
+
+        renderBlock(block);
+    });
+
+
+    requestAnimationFrame(
+        updatePhysics
+    );
+}
+
+
+/* =====================================================
+   RENDER
+===================================================== */
+
+function renderBlock(block) {
+
+    block.element.style.transform =
+
+        `translate3d(
+            ${block.x}px,
+            ${block.y}px,
+            0
+        )
+        rotate(
+            ${block.rotation}deg
+        )`;
+}
+
+
+/* =====================================================
+   DRAG
+===================================================== */
+
+function setupDrag(block) {
+
+    const element =
+        block.element;
+
+
+    let offsetX = 0;
+
+    let offsetY = 0;
+
+
+    let lastX = 0;
+
+    let lastY = 0;
+
+
+    let lastTime = 0;
+
+
+    /* =================================================
+       POINTER DOWN
+    ================================================= */
+
+    element.addEventListener(
+        "pointerdown",
+        (event) => {
+
+            event.preventDefault();
+
+
+            const sectionRect =
+                subhero.getBoundingClientRect();
+
+
+            block.dragging = true;
+
+            block.landed = false;
+
+
+            element.classList.add(
+                "physics-dragging"
+            );
+
+
+            /*
+             * Mouse → block offset
+             */
+
+            offsetX =
+                event.clientX -
+                sectionRect.left -
+                block.x;
+
+
+            offsetY =
+                event.clientY -
+                sectionRect.top -
+                block.y;
+
+
+            /*
+             * Reset velocity
+             */
+
+            block.velocityX = 0;
+
+            block.velocityY = 0;
+
+            block.velocityRotation = 0;
+
+
+            lastX =
+                event.clientX;
+
+            lastY =
+                event.clientY;
+
+            lastTime =
+                performance.now();
+
+
+            /*
+             * Đưa block lên trên
+             */
+
+            element.style.zIndex =
+                "100";
+
+
+            element.setPointerCapture(
+                event.pointerId
+            );
+        }
+    );
+
+
+    /* =================================================
+       POINTER MOVE
+    ================================================= */
+
+    element.addEventListener(
+        "pointermove",
+        (event) => {
+
+            if (
+                !block.dragging
+            ) {
+
+                return;
+            }
+
+
+            const sectionRect =
+                subhero.getBoundingClientRect();
+
+
+            /*
+             * Mouse position
+             */
+
+            let newX =
+                event.clientX -
+                sectionRect.left -
+                offsetX;
+
+
+            let newY =
+                event.clientY -
+                sectionRect.top -
+                offsetY;
+
+
+            /*
+             * SECTION BOUNDARIES
+             */
+
+            const maxX =
+                subhero.clientWidth -
+                block.width;
+
+
+            const maxY =
+                subhero.clientHeight -
+                block.height;
+
+
+            /*
+             * Clamp X
+             */
+
+            newX =
+                Math.max(
+                    0,
+                    Math.min(
+                        newX,
+                        maxX
+                    )
+                );
+
+
+            /*
+             * Clamp Y
+             *
+             * Đây là thứ ngăn block
+             * bị kéo xuống footer.
+             */
+
+            newY =
+                Math.max(
+                    0,
+                    Math.min(
+                        newY,
+                        maxY
+                    )
+                );
+
+
+            /*
+             * Tính velocity
+             */
+
+            const now =
+                performance.now();
+
+
+            const dt =
+                Math.max(
+                    now - lastTime,
+                    1
+                );
+
+
+            block.velocityX =
+                (
+                    newX - block.x
+                ) /
+                dt *
+                16;
+
+
+            block.velocityY =
+                (
+                    newY - block.y
+                ) /
+                dt *
+                16;
+
+
+            /*
+             * Update position
+             */
+
+            block.x = newX;
+
+            block.y = newY;
+
+
+            /*
+             * Rotation theo hướng kéo
+             */
+
+            block.rotation =
+                Math.max(
+                    -MAX_ROTATION,
+                    Math.min(
+                        MAX_ROTATION,
+                        block.velocityX * 0.7
+                    )
+                );
+
+
+            lastX =
+                event.clientX;
+
+            lastY =
+                event.clientY;
+
+            lastTime =
+                now;
+
+
+            renderBlock(block);
+        }
+    );
+
+
+    /* =================================================
+       POINTER UP
+    ================================================= */
+
+    element.addEventListener(
+        "pointerup",
+        (event) => {
+
+            if (
+                !block.dragging
+            ) {
+
+                return;
+            }
+
+
+            block.dragging = false;
+
+
+            element.classList.remove(
+                "physics-dragging"
+            );
+
+
+            /*
+             * Giảm momentum
+             */
+
+            block.velocityX *= 0.45;
+
+            block.velocityY *= 0.45;
+
+
+            /*
+             * Bật gravity lại
+             */
+
+            block.landed = false;
+
+
+            /*
+             * Đảm bảo không nằm dưới đáy
+             */
+
+            const maxY =
+                subhero.clientHeight -
+                block.height;
+
+
+            if (
+                block.y >= maxY
+            ) {
+
+                block.y = maxY;
+
+                /*
+                 * Cho nó bật nhẹ lên
+                 */
+
+                block.velocityY =
+                    -5;
+            }
+
+
+            /*
+             * Reset z-index
+             */
+
+            element.style.zIndex =
+                "";
+
+
+            element.releasePointerCapture(
+                event.pointerId
+            );
+        }
+    );
+}
+//text
+const nameElement = document.getElementById("name");
+
+const targetText = "KAMAI'S";
+const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*";
+
+const scrambleSpeed = 50;
+const iterationsPerLetter = 8;
+
+function scrambleName() {
+
+    let currentIndex = 0;
+    let iteration = 0;
+
+    function animate() {
+
+        let result = "";
+
+        for (let i = 0; i < targetText.length; i++) {
+
+            if (i < currentIndex) {
+                result += targetText[i];
+            } else {
+                result += characters[
+                    Math.floor(Math.random() * characters.length)
+                ];
+            }
+        }
+
+        nameElement.textContent = result;
+
+        iteration++;
+
+        if (iteration >= iterationsPerLetter) {
+            currentIndex++;
+            iteration = 0;
+        }
+
+        if (currentIndex <= targetText.length) {
+
+            setTimeout(animate, scrambleSpeed);
+
+        } else {
+
+            // Giữ trong 3 giây
+            nameElement.textContent = targetText;
+
+            setTimeout(() => {
+                scrambleName();
+            }, 3000);
+        }
+    }
+
+    animate();
+}
+
+scrambleName();
+// descard
+const cards = document.querySelectorAll(".descard, .dreamcard");
+
+cards.forEach(card => {
+
+    let isDragging = false;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    card.addEventListener("mousedown", (e) => {
+
+        isDragging = true;
+
+        const rect = card.getBoundingClientRect();
+
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+
+        card.style.cursor = "grabbing";
+    });
+
+    document.addEventListener("mousemove", (e) => {
+
+        if (!isDragging) return;
+
+        const hero = document.querySelector(".hero");
+        const heroRect = hero.getBoundingClientRect();
+
+        let x = e.clientX - heroRect.left - offsetX;
+        let y = e.clientY - heroRect.top - offsetY;
+
+        x = Math.max(0, Math.min(
+            x,
+            heroRect.width - card.offsetWidth
+        ));
+
+        y = Math.max(0, Math.min(
+            y,
+            heroRect.height - card.offsetHeight
+        ));
+
+        card.style.left = x + "px";
+        card.style.top = y + "px";
+    });
+
+    document.addEventListener("mouseup", () => {
+
+        isDragging = false;
+        card.style.cursor = "grab";
+
+    });
+
+});
+// tilt animation
+const portfolio = document.querySelector(".portfolio");
+
+portfolio.addEventListener("mousemove", (e) => {
+    const rect = portfolio.getBoundingClientRect();
+
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const rotateY = ((x - centerX) / centerX) * 3;
+    const rotateX = ((centerY - y) / centerY) * 2;
+
+    portfolio.style.transform = `
+        perspective(800px)
+        rotateX(${rotateX}deg)
+        rotateY(${rotateY}deg)
+        translateY(-6px)
+        scale(1.015)
+    `;
+});
+
+portfolio.addEventListener("mouseleave", () => {
+    portfolio.style.transform = "";
+});
+
+portfolio.addEventListener("mousedown", () => {
+    portfolio.style.transform = `
+        translateY(3px)
+        scale(0.98)
+        rotateX(0deg)
+        rotateY(0deg)
+    `;
+});
+
+portfolio.addEventListener("mouseup", () => {
+    portfolio.style.transform = "";
+});
+
+//DES CARD
+const hero = document.querySelector(".hero");
+const tiltElements = document.querySelectorAll(".hero .tilt");
+
+hero.addEventListener("mousemove", (e) => {
+
+    const rect = hero.getBoundingClientRect();
+
+    const mouseX =
+        ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+
+    const mouseY =
+        ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+
+    tiltElements.forEach((element) => {
+
+        const depth =
+            parseFloat(element.dataset.depth) || 10;
+
+        const moveX = mouseX * depth;
+        const moveY = mouseY * depth;
+
+        const rotateX = -mouseY * 2;
+        const rotateY = mouseX * 3;
+
+        element.style.setProperty(
+            "--moveX",
+            `${moveX}px`
+        );
+
+        element.style.setProperty(
+            "--moveY",
+            `${moveY}px`
+        );
+
+        element.style.setProperty(
+            "--tiltX",
+            `${rotateX}deg`
+        );
+
+        element.style.setProperty(
+            "--tiltY",
+            `${rotateY}deg`
+        );
+    });
+});
+
+
+hero.addEventListener("mouseleave", () => {
+
+    tiltElements.forEach((element) => {
+
+        element.style.setProperty(
+            "--moveX",
+            "0px"
+        );
+
+        element.style.setProperty(
+            "--moveY",
+            "0px"
+        );
+
+        element.style.setProperty(
+            "--tiltX",
+            "0deg"
+        );
+
+        element.style.setProperty(
+            "--tiltY",
+            "0deg"
+        );
+    });
+});
+const dreamcard = document.querySelector(".dreamcard");
+
+const DREAM_PROXIMITY = 180;
+
+document.addEventListener("mousemove", (e) => {
+
+    const rect = dreamcard.getBoundingClientRect();
+
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+
+    const dx = e.clientX - centerX;
+    const dy = e.clientY - centerY;
+
+    const distance = Math.sqrt(
+        dx * dx + dy * dy
+    );
+
+    /* Cursor xa */
+    if (distance > DREAM_PROXIMITY) {
+
+        dreamcard.style.setProperty(
+            "--nearX",
+            "0px"
+        );
+
+        dreamcard.style.setProperty(
+            "--nearY",
+            "0px"
+        );
+
+        dreamcard.style.setProperty(
+            "--tiltX",
+            "0deg"
+        );
+
+        dreamcard.style.setProperty(
+            "--tiltY",
+            "0deg"
+        );
+
+        return;
+    }
+
+//DREAM CARD
+    const strength =
+        1 - distance / DREAM_PROXIMITY;
+
+    const directionX =
+        distance === 0 ? 0 : dx / distance;
+
+    const directionY =
+        distance === 0 ? 0 : dy / distance;
+
+
+    /* DREAMCARD DI CHUYỂN */
+    const moveX =
+        directionX * strength * 10;
+
+    const moveY =
+        directionY * strength * 10;
+
+
+    /* DREAMCARD TILT */
+    const rotateY =
+        directionX * strength * 4;
+
+    const rotateX =
+        -directionY * strength * 3;
+
+
+    dreamcard.style.setProperty(
+        "--nearX",
+        `${moveX}px`
+    );
+
+    dreamcard.style.setProperty(
+        "--nearY",
+        `${moveY}px`
+    );
+
+    dreamcard.style.setProperty(
+        "--tiltX",
+        `${rotateX}deg`
+    );
+
+    dreamcard.style.setProperty(
+        "--tiltY",
+        `${rotateY}deg`
+    );
+});
+//SPARKS
+const sparks = document.querySelector(".sparks");
+const glitchLines = document.querySelector(".glitch-lines");
+const bgEffects = document.querySelector(".bg-effects");
+const sparkColors = [
+    "#fef87e",
+    "#6bf3c3",
+    "#f07aae",
+    "#6c63ff",
+    "#ffffff"
+];
+/* ==================================================
+   CREATE SPARKS
+================================================== */
+
+for (let i = 0; i < 90; i++) {
+    const spark = document.createElement("span");
+    spark.classList.add("spark");
+    /* random size */
+    if (Math.random() > 0.8) {
+        spark.classList.add("big");
+    }
+    /* random cross */
+    if (Math.random() > 0.88) {
+        spark.classList.add("cross");
+    }
+    spark.style.left =
+        Math.random() * 100 + "%";
+
+    spark.style.top =
+        Math.random() * 100 + "%";
+    spark.style.color =
+        sparkColors[
+            Math.floor(
+                Math.random() * sparkColors.length
+            )
+        ];
+
+    spark.style.background =
+        spark.style.color;
+
+    spark.style.setProperty(
+        "--duration",
+        (1.5 + Math.random() * 4) + "s"
+    );
+
+    spark.style.setProperty(
+        "--delay",
+        (Math.random() * 4) + "s"
+    );
+
+    sparks.appendChild(spark);
+}
+
+
+/* ==================================================
+   CREATE GLITCH LINES
+================================================== */
+
+for (let i = 0; i < 40; i++) {
+
+    const glitch =
+        document.createElement("span");
+
+    glitch.classList.add("glitch");
+
+    glitch.style.top =
+        Math.random() * 80 + "%";
+
+    glitch.style.left =
+        Math.random() * 90 + "%";
+
+    glitch.style.width =
+        (20 + Math.random() * 120) + "px";
+
+    glitch.style.background =
+        sparkColors[
+            Math.floor(
+                Math.random() * sparkColors.length
+            )
+        ];
+
+    glitch.style.setProperty(
+        "--duration",
+        (2 + Math.random() * 5) + "s"
+    );
+
+    glitch.style.setProperty(
+        "--delay",
+        (Math.random() * 3) + "s"
+    );
+
+    glitchLines.appendChild(glitch);
+}
+
+
+/* ==================================================
+   CREATE FLOATING PIXELS
+================================================== */
+
+for (let i = 0; i < 100; i++) {
+
+    const pixel =
+        document.createElement("span");
+
+    pixel.classList.add("pixel");
+
+    pixel.style.left =
+        Math.random() * 100 + "%";
+
+    pixel.style.top =
+        50 + Math.random() * 55 + "%";
+    pixel.style.bottom =
+        50 + Math.random() * 55 + "%";
+
+    pixel.style.background =
+        sparkColors[
+            Math.floor(
+                Math.random() * sparkColors.length
+            )
+        ];
+
+    pixel.style.setProperty(
+        "--duration",
+        (3 + Math.random() * 6) + "s"
+    );
+
+    pixel.style.setProperty(
+        "--delay",
+        (Math.random() * 5) + "s"
+    );
+
+    bgEffects.appendChild(pixel);
+}

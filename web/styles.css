@@ -1,0 +1,3371 @@
+@font-face {
+    font-family: "Jersey 25";
+    src: url("./font/Jersey_25/Jersey25-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Geo";
+    src: url("./font/Geo/Geo-Regular.ttf") format("truetype");
+}
+*:root {
+    --primary-color: #fef87e;
+    --text-color: white;
+    --secondary-color: #000000;
+    --accent-color: #fc365e;
+    --color-3: #3d2163;
+    --color-4:#f07aae;
+    --heading: "Jersey 25";
+    --font-family: "Geo";
+    --font-size: clamp(1rem, 2vw,1.5rem);
+    --background-color: #5d00b6;
+}
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0px;
+}
+body{
+    background-color: var(--background-color);
+    width:auto;
+    height: 100vh;
+}
+/*========================
+EFFECT BG
+===========================*/
+/* =========================
+   SCANNER
+========================= */
+
+.scanner {
+    position: absolute;
+    left: 0;
+    top: -5%;
+
+    width: 100%;
+    height: 2px;
+
+    background: #6bf3c3;
+
+    box-shadow:
+        0 0 8px #6bf3c3,
+        0 0 25px rgba(107, 243, 195, 0.5);
+
+    opacity: 0;
+
+    animation: scannerMove 6s steps(8) infinite;
+}
+
+@keyframes scannerMove {
+
+    0% {
+        top: -5%;
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0.7;
+    }
+
+    85% {
+        opacity: 0.7;
+    }
+
+    100% {
+        top: 105%;
+        opacity: 0;
+    }
+}
+
+/* ==================================================
+   SPARKS
+================================================== */
+
+.sparks {
+
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+
+.spark {
+
+    position: absolute;
+
+    width: 4px;
+    height: 4px;
+
+    background: #fef87e;
+
+    image-rendering: pixelated;
+
+    animation:
+        sparkBlink
+        var(--duration)
+        steps(2)
+        infinite;
+
+    animation-delay: var(--delay);
+
+    box-shadow:
+        0 0 5px currentColor;
+}
+
+
+.spark.big {
+
+    width: 6px;
+    height: 6px;
+}
+
+
+.spark.cross {
+
+    width: 4px;
+    height: 12px;
+
+    box-shadow:
+        0 0 5px currentColor;
+}
+
+
+.spark.cross::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 12px;
+    height: 4px;
+
+    left: -4px;
+    top: 4px;
+
+    background: currentColor;
+}
+
+
+@keyframes sparkBlink {
+
+    0%,
+    100% {
+        opacity: 0.2;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+/* =========================
+   SCREEN GLITCH
+========================= */
+
+.screen-glitch {
+    position: absolute;
+    inset: 0;
+
+    z-index: 30;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background:
+        linear-gradient(
+            transparent 0%,
+            transparent 47%,
+            rgba(255, 255, 255, 0.08) 48%,
+            transparent 49%
+        );
+
+    animation:
+        screenGlitch
+        9s
+        steps(1)
+        infinite;
+}
+
+@keyframes screenGlitch {
+
+    0%,
+    91%,
+    100% {
+        opacity: 0;
+        transform: translateX(0);
+    }
+
+    92% {
+        opacity: 1;
+        transform: translateX(-8px);
+    }
+
+    93% {
+        opacity: 0.5;
+        transform: translateX(10px);
+    }
+
+    94% {
+        opacity: 1;
+        transform: translateX(-4px);
+    }
+
+    95% {
+        opacity: 0;
+    }
+}
+/* ==================================================
+   GLITCH LINES
+================================================== */
+
+.glitch-lines {
+    position: absolute;
+    inset: 0;
+}
+
+
+.glitch {
+    position: absolute;
+
+    height: 3px;
+
+    background: #f07aae;
+
+    opacity: 0;
+
+    animation:
+        glitchMove
+        var(--duration)
+        steps(2)
+        infinite;
+
+    animation-delay: var(--delay);
+
+    box-shadow:
+        0 0 8px currentColor;
+}
+
+
+@keyframes glitchMove {
+
+    0%,
+    88%,
+    100% {
+        opacity: 0;
+        transform: translateX(0);
+    }
+
+    90% {
+        opacity: 0.8;
+    }
+
+    92% {
+        opacity: 0.3;
+        transform: translateX(20px);
+    }
+
+    94% {
+        opacity: 0.7;
+        transform: translateX(-15px);
+    }
+
+    96% {
+        opacity: 0;
+    }
+}
+
+
+/* ==================================================
+   RANDOM PIXEL
+================================================== */
+
+.pixel {
+    position: absolute;
+
+    width: 5px;
+    height: 5px;
+
+    background: var(--primary-color);
+
+    opacity: 0;
+
+    animation:
+        pixelFloat
+        var(--duration)
+        steps(4)
+        infinite;
+
+    animation-delay: var(--delay);
+}
+
+
+@keyframes pixelFloat {
+
+    0% {
+        opacity: 0;
+        transform:
+            translate(0, 20px);
+    }
+
+    20% {
+        opacity: 0.8;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+
+    80% {
+        opacity: 0.7;
+    }
+
+    100% {
+        opacity: 0;
+        transform:
+            translate(0, -50px);
+    }
+}
+
+
+/* =========================
+   CONSTELLATION
+========================= */
+
+.constellation {
+    position: absolute;
+    inset: 0;
+}
+
+.constellation::before,
+.constellation::after {
+    content: "";
+
+    position: absolute;
+
+    width: 90px;
+    height: 1px;
+
+    background: rgba(254, 248, 126, 0.35);
+
+    transform:
+        rotate(-25deg);
+
+    animation:
+        constellationBlink
+        4s
+        steps(2)
+        infinite;
+}
+
+.constellation::before {
+    left: 5%;
+    top: 20%;
+}
+
+.constellation::after {
+    right: 45%;
+    top: 0%;
+
+    transform: rotate(20deg);
+}
+
+@keyframes constellationBlink {
+
+    0%,
+    100% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+
+/* =========================
+   HUD TEXT
+========================= */
+
+.hud {
+    position: absolute;
+
+    z-index: 7;
+
+    font-family: "Geo", sans-serif;
+
+    font-size: 1.2rem;
+
+    letter-spacing: 0.15em;
+
+    color: #6bf3c3;
+
+    opacity: 0.5;
+
+    pointer-events: none;
+
+    text-shadow:
+        0 0 6px rgba(107, 243, 195, 0.4);
+
+    animation:
+        hudFlicker
+        3s
+        steps(3)
+        infinite;
+}
+
+.hud-1 {
+    left: 8%;
+    top: 45%;
+}
+
+.hud-2 {
+    right: 10%;
+    top: 25%;
+
+    color: #f07aae;
+}
+
+.hud-3 {
+    right: 50%;
+    bottom: 20%;
+
+    color: #fef87e;
+}
+
+@keyframes hudFlicker {
+
+    0%,
+    100% {
+        opacity: 0.25;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+
+    70% {
+        opacity: 0.4;
+    }
+}
+
+
+/* =========================
+   SCREEN GLITCH
+========================= */
+
+.screen-glitch {
+    position: absolute;
+    inset: 0;
+
+    z-index: 30;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background:
+        linear-gradient(
+            transparent 0%,
+            transparent 47%,
+            rgba(255, 255, 255, 0.08) 55%,
+            transparent 49%
+        );
+
+    animation:
+        screenGlitch
+        9s
+        steps(1)
+        infinite;
+}
+
+@keyframes screenGlitch {
+
+    0%,
+    91%,
+    100% {
+        opacity: 0;
+        transform: translateX(0);
+    }
+
+    92% {
+        opacity: 1;
+        transform: translateX(-8px);
+    }
+
+    93% {
+        opacity: 0.5;
+        transform: translateX(10px);
+    }
+
+    94% {
+        opacity: 1;
+        transform: translateX(-4px);
+    }
+
+    95% {
+        opacity: 0;
+    }
+}
+.hero .tilt {
+    transition: transform 0.15s ease-out;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+/* STARS */
+.hero .stars {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.hero .star {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: white;
+
+    animation:
+        floatStar var(--duration) ease-in-out infinite,
+        blinkStar var(--blink) ease-in-out infinite;
+}
+
+@keyframes floatStar {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(
+            var(--moveX),
+            var(--moveY)
+        );
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+@keyframes blinkStar {
+    0%, 100% {
+        opacity: 0.3;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+/*navigation bar*/
+.nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 60px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 8px;
+    box-sizing: border-box;
+
+    background: #3d2163;
+    border: 4px solid #1c0b30;
+
+    z-index: 100;
+}
+/* NAV ITEM */
+
+.nav-item {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 8px 18px;
+
+    font-family: "Jersey 25", sans-serif;
+    font-size: 1.2rem;
+
+    color: var(--primary-color);
+    text-decoration: none;
+
+    background: #5d00b6;
+
+    border: 3px solid #1c0b30;
+
+    box-shadow:
+        4px 4px 0 #1c0b30;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.1s steps(2),
+        box-shadow 0.1s steps(2),
+        background 0.1s steps(2);
+}
+
+
+/* HOVER */
+
+.nav-item:hover {
+    color: #5d00b6;
+    background: var(--primary-color);
+
+    transform:
+        translate(-3px, -3px);
+
+    box-shadow:
+        7px 7px 0 #1c0b30;
+}
+
+
+/* CLICK / PRESS */
+
+.nav-item:active {
+    transform:
+        translate(2px, 2px);
+
+    box-shadow:
+        2px 2px 0 #1c0b30;
+}
+
+
+/* ACTIVE */
+
+.nav-item.active {
+    background: var(--accent-color);
+    color: white;
+}
+
+.logo {
+    font-family: "Jersey 25", sans-serif;
+    font-size: 1.5rem;
+
+    margin-right: auto;
+    padding-left: 18px;
+}
+
+.logo img {
+    display: block;
+    width: 52px;
+    height: auto;
+    max-height: 30px;
+}
+
+
+/* CHECKBOX */
+
+#menu {
+    display: none;
+}
+
+
+/* HAMBURGER */
+
+.hamburger {
+    display: none;
+
+    width: 44px;
+    height: 44px;
+
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+
+    background: #5d00b6;
+
+    border: 3px solid #1c0b30;
+    box-shadow: 4px 4px 0 #1c0b30;
+
+    cursor: pointer;
+}
+
+.hamburger span {
+    display: block;
+
+    width: 23px;
+    height: 4px;
+
+    background: var(--primary-color);
+}
+
+
+/* DESKTOP MENU */
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-right: 20px;
+}
+
+/*-------------------------------DESKTOP---------------------------------------------------------------------*/
+
+@media screen and (max-width: 2880px) {
+body{
+        background-color: var(--background-color);
+        width:auto;
+        height: 100vh;
+    }
+
+/*------------------------*/
+.hero{
+    position: relative;
+    width: 100%;
+    height: 110vh;
+    overflow: hidden;
+    perspective: 1200px;
+}
+.hero .space-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background: var(--background-color);
+    z-index: 0;
+}
+/*text*/
+#name {
+    font-family: "Jersey 25", sans-serif;
+    font-size: clamp(2rem, 6vw, 4rem);
+    font-weight: 400;
+    color: var(--color-3);
+    position: absolute;
+    left:3%;
+    bottom: 3%;
+    letter-spacing: 0.05em;
+    z-index: 9;
+    white-space: nowrap;
+}
+/*description*/
+#describe {
+    height: 20%;
+    width: 23%;
+    position: absolute;
+    bottom: 0%;
+    left: 38%;
+}
+
+#description {
+    font-family: "Geo", sans-serif;
+    font-size: clamp(0.8rem, 2vw, 1.37rem);
+    color: var(--text-color);
+    font-weight: 300;
+    margin: 0;
+    position: absolute;
+    animation: typing 2.5s steps(55) forwards;
+    filter: drop-shadow( 1px 1px black);
+}
+
+@keyframes typing {
+    from {
+        clip-path: inset(0 100% 0 0);
+    }
+
+    to {
+        clip-path: inset(0 0 0 0);
+    }
+}
+
+
+/* Nội dung nằm trên background */
+.hero .content {
+    position: relative;
+    z-index: 2;
+}
+
+/* GRID */
+.hero .grid-top {
+    position: absolute;
+
+    width: 100%;
+    height: 70%;
+
+    left: -20%;
+    top: -35%;
+
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(65, 90, 255, 0.4) 0px,
+            rgba(65, 90, 255, 0.4) 3px,
+            transparent 3px,
+            transparent 45px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            rgba(65, 90, 255, 0.4) 0px,
+            rgba(65, 90, 255, 0.4) 3px,
+            transparent 3px,
+            transparent 70px
+        );
+
+    transform:
+        perspective(1000px)
+        rotateX(-75deg)
+        scale(1.4);
+
+    transform-origin: center bottom;
+
+    z-index: 0;
+}
+
+.hero .grid-floor {
+    position: absolute;
+    inset: 0;
+bottom: -20%;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(65, 90, 255, 0.4) 0px,
+            rgba(65, 90, 255, 0.4) 3px,
+            transparent 3px,
+            transparent 45px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            rgba(65, 90, 255, 0.4) 0px,
+            rgba(65, 90, 255, 0.4) 3px,
+            transparent 3px,
+            transparent 70px
+        );
+
+    transform:
+        perspective(500px)
+        rotateX(55deg)
+        scale(1.4);
+
+    transform-origin: center;
+}
+
+
+
+.portfolio {
+    position: absolute;
+    top: 35%;
+    left: 20%;
+    width: 62%;
+    height: auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 4;
+    cursor: pointer;
+
+  
+    filter: drop-shadow(5px 5px 0 #3d2163);
+
+   
+    transition:
+        transform 0.18s ease-out,
+        filter 0.12s steps(2);
+    
+  
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+
+.portfolio:hover {
+    transform:
+        perspective(800px)
+        rotateX(2deg)
+        rotateY(-3deg)
+        translateY(-6px)
+        scale(1.015);
+
+    filter:
+        drop-shadow(9px 9px 0 #3d2163)
+        brightness(1.08);
+}
+
+.portfolio:active {
+    transform:
+        translateY(3px)
+        scale(0.98)
+        rotateX(0deg)
+        rotateY(0deg);
+
+    filter:
+        drop-shadow(3px 3px 0 #3d2163)
+        brightness(0.9);
+
+    transition:
+        transform 0.06s steps(2),
+        filter 0.06s steps(2);
+}
+
+
+.yellowbg {
+    position: absolute;
+    top: 25%;
+    left: 6.2%;
+    width: clamp(1rem,87.7%, 90%);
+    height: auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 3;
+    cursor: pointer;
+
+
+    transform-style: preserve-3d;
+    will-change: transform;
+
+    transition:
+        transform 0.18s ease-out,
+        filter 0.12s steps(2);
+}
+.yellowbg img {
+    filter: drop-shadow(8px 8px 0 #3d2163);
+}
+
+.yellowbg:hover {
+    transform:
+        perspective(800px)
+        rotateX(1.5deg)
+        rotateY(-2deg)
+        translateY(-6px)
+        scale(1.015);
+
+    filter:
+        drop-shadow(11px 11px 0 #3d2163)
+        brightness(1.08);
+}
+
+
+
+.yellowbg:active {
+    transform:
+        translateY(3px)
+        scale(0.98)
+        rotateX(0deg)
+        rotateY(0deg);
+
+    filter:
+        drop-shadow(4px 4px 0 #3d2163)
+        brightness(0.9);
+
+    transition:
+        transform 0.06s steps(2),
+        filter 0.06s steps(2);
+}
+
+/*cards*/
+.descard {
+    position: absolute;
+
+    width: 15vw;
+    max-width: 150px;
+    height: auto;
+
+    top: 35%;
+    left: 5%;
+
+    z-index: 6;
+
+    cursor: grab;
+    user-select: none;
+
+    /* =====================
+       3D TILT VARIABLES
+    ===================== */
+ --nearX: 0px;
+    --nearY: 0px;
+    --tiltX: 0deg;
+    --tiltY: 0deg;
+
+    transform:
+        translate3d(var(--nearX), var(--nearY), 0)
+        rotateX(var(--tiltX))
+        rotateY(var(--tiltY));
+
+    transform-style: preserve-3d;
+
+    transition:
+        transform 0.15s ease-out,
+        filter 0.15s ease-out;
+    will-change: transform;
+}
+
+
+/* IMAGE */
+
+.descard img {
+    width: 100%;
+    height: auto;
+    display: block;
+
+    pointer-events: none;
+    user-select: none;
+}
+
+
+/* =====================
+   HOVER
+===================== */
+
+.descard:hover {
+    transform:
+        translate3d(
+            var(--moveX),
+            calc(var(--moveY) - 6px),
+            0
+        )
+        rotateX(var(--tiltX))
+        rotateY(var(--tiltY))
+        scale(1.02);
+
+    filter:
+        drop-shadow(6px 6px 0 tomato)
+        brightness(1.1);
+}
+
+
+/* =====================
+   PRESS
+===================== */
+
+.descard:active {
+    cursor: grabbing;
+
+    --tiltX: 0deg;
+    --tiltY: 0deg;
+
+    transform:
+        translate3d(
+            var(--moveX),
+            calc(var(--moveY) + 5px),
+            0
+        )
+        scale(0.97);
+
+    filter:
+        drop-shadow(3px 3px 0 tomato)
+        brightness(0.9);
+
+    transition:
+        transform 0.06s steps(2),
+        filter 0.06s steps(2);
+}
+#designer{
+    font-family:"Jersey 25";
+    font-weight: normal;
+    font-size: var(--font-size);
+    color: var(--color-4);
+    transform: scaleY(2.5);
+    position: absolute;
+    top: 20%;
+    left: 17%;
+}
+
+.dreamcard {
+    position: absolute;
+
+    width: 25%;
+    max-width: 170px;
+    height: auto;
+
+    top: 57%;
+    right: 15%;
+
+    z-index: 6;
+
+    cursor: grab;
+    user-select: none;
+
+    --nearX: 0px;
+    --nearY: 0px;
+    --tiltX: 0deg;
+    --tiltY: 0deg;
+
+    transform:
+        translate3d(var(--nearX), var(--nearY), 0)
+        rotateX(var(--tiltX))
+        rotateY(var(--tiltY))
+        rotate(-5deg);
+
+    transform-style: preserve-3d;
+
+    transition:
+        transform 0.15s ease-out,
+        filter 0.12s steps(2);
+
+    will-change: transform;
+}
+
+.dreamcard img {
+    width: 100%;
+    height: auto;
+    display: block;
+
+    pointer-events: none;
+    user-select: none;
+}
+
+
+/* =========================
+   HOVER
+========================= */
+
+.dreamcard:hover {
+    transform:
+        translate3d(
+            var(--nearX),
+            calc(var(--nearY) - 6px),
+            0
+        )
+        rotateX(var(--tiltX))
+        rotateY(var(--tiltY))
+        rotate(-5deg)
+        scale(1.02);
+
+    filter:
+        drop-shadow(6px 6px 0 tomato)
+        brightness(1.1);
+}
+
+
+/* =========================
+   PRESS
+========================= */
+
+.dreamcard:active {
+    cursor: grabbing;
+
+    --tiltX: 0deg;
+    --tiltY: 0deg;
+
+    transform:
+        translate3d(
+            var(--nearX),
+            calc(var(--nearY) + 4px),
+            0
+        )
+        rotate(-5deg)
+        scale(0.97);
+
+    filter:
+        drop-shadow(3px 3px 0 tomato)
+        brightness(0.9);
+
+    transition:
+        transform 0.06s steps(2),
+        filter 0.06s steps(2);
+}
+#dream{
+    font-family:"Jersey 25";
+    font-weight: normal;
+    font-size: var(--font-size);
+    color: var(--color-3);
+    transform: scaleY(2.5) rotate(1deg) skewX(-15deg);
+    position: absolute;
+    top:  30%;
+    left: 22%;
+}
+
+/*-------------------------------section2-----------------*/
+
+/* =====================================================
+   SECTION 2
+===================================================== */
+
+.subhero {
+    position: relative;
+
+    width: 100%;
+    height: 120vh;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #5D00B6 0%,
+            #000000 100%
+        );
+}
+
+
+/* =====================================================
+   STARS
+===================================================== */
+
+.section2-stars {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 0;
+
+    pointer-events: none;
+
+    overflow: hidden;
+}
+
+.section2-star {
+    position: absolute;
+
+    width: 3px;
+    height: 3px;
+
+    background: white;
+
+    image-rendering: pixelated;
+
+    pointer-events: none;
+
+    animation:
+        section2Float var(--duration)
+        ease-in-out infinite,
+        section2Blink var(--blink)
+        steps(2) infinite;
+}
+
+
+@keyframes section2Float {
+
+    0% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform:
+            translate(
+                var(--moveX),
+                var(--moveY)
+            );
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+
+@keyframes section2Blink {
+
+    0%,
+    100% {
+        opacity: 0.2;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+
+/* =====================================================
+   BLOCK BASE
+===================================================== */
+
+.subhero .block1,
+.subhero .block2,
+.subhero .block3,
+.subhero .block4,
+.subhero .block5,
+.subhero .block6,
+.subhero .block7 {
+
+    position: absolute;
+
+    opacity: 0;
+
+    cursor: grab;
+
+    user-select: none;
+
+    touch-action: none;
+
+    will-change: transform;
+
+    /*
+       Rất quan trọng:
+       JS sẽ điều khiển transform.
+    */
+
+    transition: none !important;
+}
+
+
+/* Không cho ảnh cản pointer */
+
+.subhero .block1 img,
+.subhero .block2 img,
+.subhero .block3 img,
+.subhero .block4 img,
+.subhero .block5 img,
+.subhero .block6 img,
+.subhero .block7 img {
+
+    pointer-events: none;
+
+    user-select: none;
+
+    -webkit-user-drag: none;
+
+    display: block;
+
+    width: 100%;
+
+    height: auto;
+}
+
+
+/* =====================================================
+   VỊ TRÍ NGANG BAN ĐẦU
+===================================================== */
+
+.block1 {
+    left: 0%;
+    width: 15%;
+}
+
+.block2 {
+    left: 9%;
+    width: 20%;
+}
+
+.block3 {
+    left: 35.1%;
+    width: 20%;
+}
+
+.block4 {
+    left: 46.5%;
+    width: 20%;
+}
+
+.block5 {
+    left: 31%;
+    width: 20%;
+
+    z-index: 5;
+}
+
+
+
+/* =====================================================
+   TEXT
+===================================================== */
+
+#gamer {
+    font-family: "Jersey 25";
+
+    font-weight: normal;
+
+    font-size: var(--font-size);
+
+    color: var(--accent-color);
+
+    position: absolute;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    z-index: 5;
+
+    transform:
+    scale(3)
+        translateY(-100%)
+       translateX(50%);
+}
+
+
+#adaptable {
+    font-family: "Jersey 25";
+
+    font-weight: normal;
+
+    font-size: var(--font-size);
+
+    color: var(--color-3);
+
+    position: absolute;
+    transform: scale(2);
+    bottom: 25%;
+
+    left: 25%;
+}
+
+
+#iam {
+    font-family: "Jersey 25";
+
+    font-weight: normal;
+
+    font-size: var(--font-size);
+
+    color: var(--accent-color);
+
+    position: absolute;
+    transform: scale(2);
+    bottom: 25%;
+
+    left: 20%;
+}
+
+
+#introvert {
+    font-family: "Jersey 25";
+
+    font-weight: normal;
+
+    font-size: var(--font-size);
+
+    color: var(--accent-color);
+
+    position: absolute;
+    transform: scale(1.5);
+    bottom: 25%;
+
+    left: 20%;
+}
+
+
+#ctr {
+    font-family: "Jersey 25";
+
+    font-weight: normal;
+
+    font-size: var(--font-size);
+
+    color: var(--primary-color);
+
+    position: absolute;
+    transform: scale(1.2);
+    bottom: 25%;
+
+    left: 17%;
+}
+
+
+
+/* =====================================================
+   DRAGGING
+===================================================== */
+
+.physics-dragging {
+
+    cursor: grabbing !important;
+
+    z-index: 100 !important;
+
+    transition: none !important;
+}
+}
+/* =========================
+   FOOTER
+========================= */
+.footer {
+    position: relative;
+
+    width: 100%;
+    height: 60px;
+    display: flex;
+
+    padding: 8px;
+
+    background: #150b22;
+
+    z-index: 100;
+}
+
+.footer-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+/* =========================
+   CONTENT CONTAINER
+========================= */
+
+
+
+
+/* =========================
+   DECORATION
+========================= */
+
+.footer-decoration {
+    position: absolute;
+    top: 30%;
+    color: #fef87e;
+    font-size: 1.2rem;
+    animation:
+        footerFloat 2s steps(2) infinite;
+}
+
+
+@keyframes footerFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-3px);
+    }
+
+}
+
+
+/* =========================
+   MAIN CONTENT
+========================= */
+
+.footer-main {
+    min-height: 0;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer-copyright {
+    color: var(--primary-color);
+    font-family: "Jersey 25", sans-serif;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+
+/*--------------------------------------------------------TABLET------------------------------------------*/
+@media screen and (max-width: 1024px) {
+body{
+        background-color: var(--background-color);
+        width:auto;
+        height: 100vh;
+    }
+
+/*------------------------*/
+.hero{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    perspective: 1200px;
+}
+.hero .space-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background: var(--background-color);
+    z-index: 0;
+}
+/*text*/
+#name {
+    font-family: "Jersey 25", sans-serif;
+    font-size: clamp(2.2rem, 7vw, 4rem);
+    font-weight: 400;
+    color: var(--color-3);
+    position: absolute;
+    left:3%;
+    bottom: 1%;
+    letter-spacing: 0.05em;
+    z-index: 9;
+    white-space: nowrap;
+}
+/*description*/
+#describe {
+    height: 20%;
+    width: 50%;
+    position: absolute;
+    bottom: -30%;
+    left: 10%;
+}
+
+#description {
+    font-family: "Geo", sans-serif;
+    font-size: clamp(1rem, 4vw, 2rem);
+    color: var(--text-color);
+    font-weight: 500;
+    margin: 0;
+    position: absolute;
+    animation: typing 2.5s steps(55) forwards;
+    filter: drop-shadow( 1px 1px black);
+}
+
+@keyframes typing {
+    from {
+        clip-path: inset(0 100% 0 0);
+    }
+
+    to {
+        clip-path: inset(0 0 0 0);
+    }
+}
+
+
+/* Nội dung nằm trên background */
+.hero .content {
+    position: relative;
+    z-index: 2;
+}
+
+/* GRID */
+.hero .grid-top {
+    position: absolute;
+
+    width: 100%;
+    height: 70%;
+
+    left: -20%;
+    top: -35%;
+
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(65, 90, 255, 0.4) 0px,
+            rgba(65, 90, 255, 0.4) 3px,
+            transparent 3px,
+            transparent 45px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            rgba(65, 90, 255, 0.4) 0px,
+            rgba(65, 90, 255, 0.4) 3px,
+            transparent 3px,
+            transparent 70px
+        );
+
+    transform:
+        perspective(1000px)
+        rotateX(-75deg)
+        scale(1.4);
+
+    transform-origin: center bottom;
+
+    z-index: 0;
+}
+
+.hero .grid-floor {
+    position: absolute;
+    inset: 0;
+bottom: -20%;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(65, 90, 255, 0.4) 0px,
+            rgba(65, 90, 255, 0.4) 3px,
+            transparent 3px,
+            transparent 45px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            rgba(65, 90, 255, 0.4) 0px,
+            rgba(65, 90, 255, 0.4) 3px,
+            transparent 3px,
+            transparent 70px
+        );
+
+    transform:
+        perspective(500px)
+        rotateX(55deg)
+        scale(1.4);
+
+    transform-origin: center;
+}
+
+
+.portfolio {
+    position: absolute;
+    top: 38%;
+    left: 20%;
+    width: 67%;
+    height: auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 4;
+    cursor: pointer;
+
+  
+    filter: drop-shadow(5px 5px 0 #3d2163);
+
+   
+    transition:
+        transform 0.18s ease-out,
+        filter 0.12s steps(2);
+    
+  
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+
+.portfolio:hover {
+    transform:
+        perspective(800px)
+        rotateX(2deg)
+        rotateY(-3deg)
+        translateY(-6px)
+        scale(1.015);
+
+    filter:
+        drop-shadow(9px 9px 0 #3d2163)
+        brightness(1.08);
+}
+
+.portfolio:active {
+    transform:
+        translateY(3px)
+        scale(0.98)
+        rotateX(0deg)
+        rotateY(0deg);
+
+    filter:
+        drop-shadow(3px 3px 0 #3d2163)
+        brightness(0.9);
+
+    transition:
+        transform 0.06s steps(2),
+        filter 0.06s steps(2);
+}
+
+
+.yellowbg {
+    position: absolute;
+    top: 33%;
+    left: 2.5%;
+    width: 95%;
+    height: auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 3;
+    cursor: pointer;
+
+
+    transform-style: preserve-3d;
+    will-change: transform;
+
+    transition:
+        transform 0.18s ease-out,
+        filter 0.12s steps(2);
+}
+.yellowbg img {
+    filter: drop-shadow(8px 8px 0 #3d2163);
+}
+
+.yellowbg:hover {
+    transform:
+        perspective(800px)
+        rotateX(1.5deg)
+        rotateY(-2deg)
+        translateY(-6px)
+        scale(1.015);
+
+    filter:
+        drop-shadow(11px 11px 0 #3d2163)
+        brightness(1.08);
+}
+
+
+
+.yellowbg:active {
+    transform:
+        translateY(3px)
+        scale(0.98)
+        rotateX(0deg)
+        rotateY(0deg);
+
+    filter:
+        drop-shadow(4px 4px 0 #3d2163)
+        brightness(0.9);
+
+    transition:
+        transform 0.06s steps(2),
+        filter 0.06s steps(2);
+}
+
+/*cards*/
+.descard {
+    position: absolute;
+
+    width: 15vw;
+    max-width: 150px;
+    height: auto;
+
+    top: 31%;
+    left: 3%;
+
+    z-index: 6;
+
+    cursor: grab;
+    user-select: none;
+
+    /* =====================
+       3D TILT VARIABLES
+    ===================== */
+ --nearX: 0px;
+    --nearY: 0px;
+    --tiltX: 0deg;
+    --tiltY: 0deg;
+
+    transform:
+        translate3d(var(--nearX), var(--nearY), 0)
+        rotateX(var(--tiltX))
+        rotateY(var(--tiltY));
+
+    transform-style: preserve-3d;
+
+    transition:
+        transform 0.15s ease-out,
+        filter 0.15s ease-out;
+    will-change: transform;
+}
+
+
+/* IMAGE */
+
+.descard img {
+    width: 100%;
+    height: auto;
+    display: block;
+
+    pointer-events: none;
+    user-select: none;
+}
+
+
+/* =====================
+   HOVER
+===================== */
+
+.descard:hover {
+    transform:
+        translate3d(
+            var(--moveX),
+            calc(var(--moveY) - 6px),
+            0
+        )
+        rotateX(var(--tiltX))
+        rotateY(var(--tiltY))
+        scale(1.02);
+
+    filter:
+        drop-shadow(6px 6px 0 tomato)
+        brightness(1.1);
+}
+
+
+/* =====================
+   PRESS
+===================== */
+
+.descard:active {
+    cursor: grabbing;
+
+    --tiltX: 0deg;
+    --tiltY: 0deg;
+
+    transform:
+        translate3d(
+            var(--moveX),
+            calc(var(--moveY) + 5px),
+            0
+        )
+        scale(0.97);
+
+    filter:
+        drop-shadow(3px 3px 0 tomato)
+        brightness(0.9);
+
+    transition:
+        transform 0.06s steps(2),
+        filter 0.06s steps(2);
+}
+#designer{
+    font-family:"Jersey 25";
+    font-weight: normal;
+    font-size: clamp(0.8rem, 2.5vw, 1.8rem);
+    color: var(--color-4);
+    position: absolute;
+    top: 20%;
+    left: 17%;
+}
+
+.dreamcard {
+    position: absolute;
+
+    width: clamp(120px, 19vw, 165px);
+    height: auto;
+
+    top:45%;
+    right: 9%;
+
+    z-index: 6;
+
+    cursor: grab;
+    user-select: none;
+
+    --nearX: 0px;
+    --nearY: 0px;
+    --tiltX: 0deg;
+    --tiltY: 0deg;
+
+    transform:
+        translate3d(var(--nearX), var(--nearY), 0)
+        rotateX(var(--tiltX))
+        rotateY(var(--tiltY))
+        rotate(-5deg);
+
+    transform-style: preserve-3d;
+
+    transition:
+        transform 0.15s ease-out,
+        filter 0.12s steps(2);
+
+    will-change: transform;
+}
+
+.dreamcard img {
+    width: 100%;
+    height: auto;
+    display: block;
+
+    pointer-events: none;
+    user-select: none;
+}
+
+
+/* =========================
+   HOVER
+========================= */
+
+.dreamcard:hover {
+    transform:
+        translate3d(
+            var(--nearX),
+            calc(var(--nearY) - 6px),
+            0
+        )
+        rotateX(var(--tiltX))
+        rotateY(var(--tiltY))
+        rotate(-5deg)
+        scale(1.02);
+
+    filter:
+        drop-shadow(6px 6px 0 tomato)
+        brightness(1.1);
+}
+
+
+/* =========================
+   PRESS
+========================= */
+
+.dreamcard:active {
+    cursor: grabbing;
+
+    --tiltX: 0deg;
+    --tiltY: 0deg;
+
+    transform:
+        translate3d(
+            var(--nearX),
+            calc(var(--nearY) + 4px),
+            0
+        )
+        rotate(-5deg)
+        scale(0.97);
+
+    filter:
+        drop-shadow(3px 3px 0 tomato)
+        brightness(0.9);
+
+    transition:
+        transform 0.06s steps(2),
+        filter 0.06s steps(2);
+}
+#dream{
+    font-family:"Jersey 25";
+    font-weight: normal;
+   font-size:  clamp(0.8rem, 2.5vw, 1.8rem);
+    color: var(--color-3);
+    position: absolute;
+    top:  30%;
+    left: 20%;
+}
+
+/*-------------------------------section2-----------------*/
+
+/* =====================================================
+   SECTION 2
+===================================================== */
+
+.subhero {
+    position: relative;
+
+    width: 100%;
+    height: 100vh;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #5D00B6 0%,
+            #000000 100%
+        );
+}
+
+
+/* =====================================================
+   STARS
+===================================================== */
+
+.section2-stars {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 0;
+
+    pointer-events: none;
+
+    overflow: hidden;
+}
+
+.section2-star {
+    position: absolute;
+
+    width: 3px;
+    height: 3px;
+
+    background: white;
+
+    image-rendering: pixelated;
+
+    pointer-events: none;
+
+    animation:
+        section2Float var(--duration)
+        ease-in-out infinite,
+        section2Blink var(--blink)
+        steps(2) infinite;
+}
+
+
+@keyframes section2Float {
+
+    0% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform:
+            translate(
+                var(--moveX),
+                var(--moveY)
+            );
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+
+@keyframes section2Blink {
+
+    0%,
+    100% {
+        opacity: 0.2;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+
+/* =====================================================
+   BLOCK BASE
+===================================================== */
+
+.subhero .block1,
+.subhero .block2,
+.subhero .block3,
+.subhero .block4,
+.subhero .block5,
+.subhero .block6,
+.subhero .block7 {
+
+    position: absolute;
+
+    opacity: 0;
+
+    cursor: grab;
+
+    user-select: none;
+
+    touch-action: none;
+
+    will-change: transform;
+
+    /*
+       Rất quan trọng:
+       JS sẽ điều khiển transform.
+    */
+
+    transition: none !important;
+}
+
+
+/* Không cho ảnh cản pointer */
+
+.subhero .block1 img,
+.subhero .block2 img,
+.subhero .block3 img,
+.subhero .block4 img,
+.subhero .block5 img,
+.subhero .block6 img,
+.subhero .block7 img {
+
+    pointer-events: none;
+
+    user-select: none;
+
+    -webkit-user-drag: none;
+
+    display: block;
+
+    width: 100%;
+
+    height: auto;
+}
+
+
+/* =====================================================
+   VỊ TRÍ NGANG BAN ĐẦU
+===================================================== */
+
+.block1 {
+    left: 0%;
+    width: 20%;
+}
+
+.block2 {
+    left: 9%;
+    width: 25%;
+}
+
+.block3 {
+    left: 35.1%;
+    width: 25%;
+}
+
+.block4 {
+    left: 46.5%;
+    width: 30%;
+}
+
+.block5 {
+    left: 41%;
+    width: 30%;
+
+    z-index: 5;
+}
+
+
+
+
+/* =====================================================
+   TEXT
+===================================================== */
+
+#gamer {
+    font-family: "Jersey 25";
+
+    font-weight: normal;
+
+    font-size: var(--font-size);
+
+    color: var(--accent-color);
+
+    position: absolute;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    z-index: 5;
+
+    transform:
+    scale(3)
+        translateY(-100%)
+       translateX(50%);
+}
+
+
+#adaptable {
+    font-family: "Jersey 25";
+
+    font-weight: normal;
+
+    font-size: var(--font-size);
+
+    color: var(--color-3);
+
+    position: absolute;
+    transform: scale(2);
+    bottom: 25%;
+
+    left: 25%;
+}
+
+
+#iam {
+    font-family: "Jersey 25";
+
+    font-weight: normal;
+
+    font-size: var(--font-size);
+
+    color: var(--accent-color);
+
+    position: absolute;
+    transform: scale(2);
+    bottom: 25%;
+
+    left: 20%;
+}
+
+
+#introvert {
+    font-family: "Jersey 25";
+
+    font-weight: normal;
+
+    font-size: var(--font-size);
+
+    color: var(--accent-color);
+
+    position: absolute;
+    transform: scale(1.5);
+    bottom: 25%;
+
+    left: 20%;
+}
+
+
+#ctr {
+    font-family: "Jersey 25";
+
+    font-weight: normal;
+
+    font-size: var(--font-size);
+
+    color: var(--primary-color);
+
+    position: absolute;
+    transform: scale(2);
+    bottom: 25%;
+
+    left: 25%;
+}
+
+
+
+/* =====================================================
+   DRAGGING
+===================================================== */
+
+.physics-dragging {
+
+    cursor: grabbing !important;
+
+    z-index: 100 !important;
+
+    transition: none !important;
+}
+
+/* =========================
+   FOOTER
+========================= */
+.footer {
+    position: relative;
+
+    width: 100%;
+    height: 60px;
+    display: flex;
+
+    padding: 8px;
+
+    background: #3d2163;
+
+    z-index: 100;
+}
+
+
+
+/* =========================
+   CONTENT CONTAINER
+========================= */
+
+
+
+
+/* =========================
+   DECORATION
+========================= */
+
+.footer-decoration {
+    font-size: 1.2rem;
+
+    animation:
+        footerFloat 2s steps(2) infinite;
+}
+
+
+@keyframes footerFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-3px);
+    }
+
+}
+}
+/*--------------------------------------------------------mobile------------------------------------------*/
+@media screen and (max-width: 480px) {
+
+
+/*-------------NAVIGATION BARRRRR-----------*/
+
+    body{
+        background-color: var(--background-color);
+        width:auto;
+        height: 90vh;
+    }
+    .nav {
+        height: 60px;
+        padding: 8px;
+        box-sizing: border-box;
+
+        z-index: 1000;
+    }
+
+    .logo {
+        margin-right: auto;
+        position: relative;
+        z-index: 1002;
+    }
+
+
+    /* =====================
+       HAMBURGER
+    ===================== */
+
+    .hamburger {
+        position: relative;
+        z-index: 1002;
+
+        display: flex;
+
+        width: 45px;
+        height: 42px;
+
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        gap: 5px;
+
+        background: #5d00b6;
+
+        border: 3px solid #1c0b30;
+
+        box-shadow: 4px 4px 0 #1c0b30;
+
+        cursor: pointer;
+    }
+
+    .hamburger span {
+        width: 23px;
+        height: 4px;
+
+        background: var(--primary-color);
+
+        transition:
+            transform 0.25s ease,
+            opacity 0.2s ease;
+    }
+
+
+    /* =====================
+       MENU
+    ===================== */
+
+    .nav-links {
+
+        position: fixed;
+
+        top: 0;
+        left: 0;
+
+        width: 100vw;
+        height: 100vh;
+
+        box-sizing: border-box;
+
+        display: flex;
+        flex-direction: column;
+
+        justify-content: center;
+        align-items: center;
+
+        gap: 15px;
+
+        padding: 80px 25px 30px;
+
+        background: #3d2163;
+
+        border: 4px solid #1c0b30;
+
+        z-index: 1001;
+
+
+        /* đóng */
+        opacity: 0;
+        visibility: hidden;
+
+        transform: translateY(-20px);
+
+        transition:
+            opacity 0.3s ease,
+            transform 0.35s ease,
+            visibility 0.35s ease;
+    }
+
+
+    /* =====================
+       MENU OPEN
+    ===================== */
+
+    #menu:checked ~ .nav-links {
+
+        opacity: 1;
+        visibility: visible;
+
+        transform: translateY(0);
+    }
+
+
+    /* =====================
+       MENU ITEM
+    ===================== */
+
+    .nav-links .nav-item {
+
+        width: min(80%, 350px);
+        height: 60px;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        box-sizing: border-box;
+
+        font-family: "Jersey 25", sans-serif;
+        font-size: 1.5rem;
+
+        color: var(--primary-color);
+
+        background: #5d00b6;
+
+        border: 3px solid #1c0b30;
+
+        box-shadow: 5px 5px 0 #1c0b30;
+
+        text-decoration: none;
+
+        transform: translateY(15px);
+
+        opacity: 0;
+
+        transition:
+            opacity 0.25s ease,
+            transform 0.3s ease;
+    }
+
+
+    /* item hiện ra */
+
+    #menu:checked ~ .nav-links .nav-item {
+
+        opacity: 1;
+
+        transform: translateY(0);
+    }
+
+
+    /* delay từng item */
+
+    #menu:checked ~ .nav-links .nav-item:nth-child(1) {
+        transition-delay: 0.05s;
+    }
+
+    #menu:checked ~ .nav-links .nav-item:nth-child(2) {
+        transition-delay: 0.1s;
+    }
+
+    #menu:checked ~ .nav-links .nav-item:nth-child(3) {
+        transition-delay: 0.15s;
+    }
+
+
+    /* =====================
+       HAMBURGER → X
+    ===================== */
+
+    #menu:checked + .hamburger span:nth-child(1) {
+        transform:
+            translateY(9px)
+            rotate(45deg);
+    }
+
+    #menu:checked + .hamburger span:nth-child(2) {
+        opacity: 0;
+    }
+
+    #menu:checked + .hamburger span:nth-child(3) {
+        transform:
+            translateY(-9px)
+            rotate(-45deg);
+    }
+
+
+.hero{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    perspective: 1200px;
+}
+.hero .space-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background: var(--background-color);
+    z-index: 0;
+}
+/*text*/
+#name {
+    font-family: "Jersey 25", sans-serif;
+    font-size: 1.75rem;
+    font-weight: 400;
+    color: var(--color-3);
+    position: absolute;
+    left:16.5%;
+    bottom: 1%;
+    letter-spacing: 0.05em;
+    z-index: 9;
+    white-space: nowrap;
+}
+/*description*/
+#describe {
+    height: 20%;
+    width: 45%;
+    position: absolute;
+    bottom: -30%;
+    left: 17%;
+}
+
+#description {
+    font-family: "Geo", sans-serif;
+    font-size: clamp(0.8rem, 4vw, 2rem);
+    color: var(--text-color);
+    font-weight: 500;
+    margin: 0;
+    position: absolute;
+    animation: typing 2.5s steps(55) forwards;
+    filter: drop-shadow( 1.5px .51px black);
+}
+
+@keyframes typing {
+    from {
+        clip-path: inset(0 100% 0 0);
+    }
+
+    to {
+        clip-path: inset(0 0 0 0);
+    }
+}
+
+
+/* Nội dung nằm trên background */
+.hero .content {
+    position: relative;
+    z-index: 2;
+}
+
+/* GRID */
+.hero .grid-top {
+    position: absolute;
+
+    width: 100%;
+    height: 70%;
+
+    left: -20%;
+    top: -35%;
+
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(65, 90, 255, 0.4) 0px,
+            rgba(65, 90, 255, 0.4) 3px,
+            transparent 3px,
+            transparent 45px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            rgba(65, 90, 255, 0.4) 0px,
+            rgba(65, 90, 255, 0.4) 3px,
+            transparent 3px,
+            transparent 70px
+        );
+
+    transform:
+        perspective(1000px)
+        rotateX(-75deg)
+        scale(1.4);
+
+    transform-origin: center bottom;
+
+    z-index: 0;
+}
+
+.hero .grid-floor {
+    position: absolute;
+    inset: 0;
+bottom: -20%;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(65, 90, 255, 0.4) 0px,
+            rgba(65, 90, 255, 0.4) 3px,
+            transparent 3px,
+            transparent 45px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            rgba(65, 90, 255, 0.4) 0px,
+            rgba(65, 90, 255, 0.4) 3px,
+            transparent 3px,
+            transparent 70px
+        );
+
+    transform:
+        perspective(500px)
+        rotateX(55deg)
+        scale(1.4);
+
+    transform-origin: center;
+}
+
+.portfolio {
+    position: absolute;
+    top: 37%;
+    left: 5%;
+    width: 90vw;
+    height: auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 4;
+    cursor: pointer;
+
+  
+    filter: drop-shadow(5px 5px 0 #3d2163);
+
+   
+    transition:
+        transform 0.18s ease-out,
+        filter 0.12s steps(2);
+    
+  
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+
+.portfolio:hover {
+    transform:
+        perspective(800px)
+        rotateX(2deg)
+        rotateY(-3deg)
+        translateY(-6px)
+        scale(1.015);
+
+    filter:
+        drop-shadow(9px 9px 0 #3d2163)
+        brightness(1.08);
+}
+
+.portfolio:active {
+    transform:
+        translateY(3px)
+        scale(0.98)
+        rotateX(0deg)
+        rotateY(0deg);
+
+    filter:
+        drop-shadow(3px 3px 0 #3d2163)
+        brightness(0.9);
+
+    transition:
+        transform 0.06s steps(2),
+        filter 0.06s steps(2);
+}
+
+
+.yellowbg {
+    position: absolute;
+    top: 33.5%;
+    left: -15%;
+    width:132vw;
+    height: auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 3;
+    cursor: pointer;
+
+
+    transform-style: preserve-3d;
+    will-change: transform;
+
+    transition:
+        transform 0.18s ease-out,
+        filter 0.12s steps(2);
+}
+.yellowbg img {
+    filter: drop-shadow(8px 8px 0 #3d2163);
+}
+
+.yellowbg:hover {
+    transform:
+        perspective(800px)
+        rotateX(1.5deg)
+        rotateY(-2deg)
+        translateY(-6px)
+        scale(1.015);
+
+    filter:
+        drop-shadow(11px 11px 0 #3d2163)
+        brightness(1.08);
+}
+
+
+
+.yellowbg:active {
+    transform:
+        translateY(3px)
+        scale(0.98)
+        rotateX(0deg)
+        rotateY(0deg);
+
+    filter:
+        drop-shadow(4px 4px 0 #3d2163)
+        brightness(0.9);
+
+    transition:
+        transform 0.06s steps(2),
+        filter 0.06s steps(2);
+}
+
+/*cards*/
+.descard {
+    position: absolute;
+
+    width:20vw;
+    max-width: 150px;
+    height: auto;
+
+    top: 20%;
+    left: 8%;
+
+    z-index: 6;
+
+    cursor: grab;
+    user-select: none;
+
+    /* =====================
+       3D TILT VARIABLES
+    ===================== */
+ --nearX: 0px;
+    --nearY: 0px;
+    --tiltX: 0deg;
+    --tiltY: 0deg;
+
+    transform:
+        translate3d(var(--nearX), var(--nearY), 0)
+        rotateX(var(--tiltX))
+        rotateY(var(--tiltY));
+
+    transform-style: preserve-3d;
+
+    transition:
+        transform 0.15s ease-out,
+        filter 0.15s ease-out;
+    will-change: transform;
+}
+
+
+/* IMAGE */
+
+.descard img {
+    width: 100%;
+    height: auto;
+    display: block;
+
+    pointer-events: none;
+    user-select: none;
+}
+
+
+/* =====================
+   HOVER
+===================== */
+
+.descard:hover {
+    transform:
+        translate3d(
+            var(--moveX),
+            calc(var(--moveY) - 6px),
+            0
+        )
+        rotateX(var(--tiltX))
+        rotateY(var(--tiltY))
+        scale(1.02);
+
+    filter:
+        drop-shadow(6px 6px 0 tomato)
+        brightness(1.1);
+}
+
+
+/* =====================
+   PRESS
+===================== */
+
+.descard:active {
+    cursor: grabbing;
+
+    --tiltX: 0deg;
+    --tiltY: 0deg;
+
+    transform:
+        translate3d(
+            var(--moveX),
+            calc(var(--moveY) + 5px),
+            0
+        )
+        scale(0.97);
+
+    filter:
+        drop-shadow(3px 3px 0 tomato)
+        brightness(0.9);
+
+    transition:
+        transform 0.06s steps(2),
+        filter 0.06s steps(2);
+}
+#designer{
+    font-family:"Jersey 25";
+    font-weight: normal;
+    font-size: clamp(0.2srem, 4vw, 1.4rem);
+    color: var(--color-4);
+    transform: scaleY(2.5);
+    position: absolute;
+    top: 20%;
+    left: 17%;
+}
+
+.dreamcard {
+    position: absolute;
+
+    width: 25vw;
+    max-width: 170px;
+    height: auto;
+
+    top: 46%;
+    right: 7%;
+
+    z-index: 6;
+
+    cursor: grab;
+    user-select: none;
+
+    --nearX: 0px;
+    --nearY: 0px;
+    --tiltX: 0deg;
+    --tiltY: 0deg;
+
+    transform:
+        translate3d(var(--nearX), var(--nearY), 0)
+        rotateX(var(--tiltX))
+        rotateY(var(--tiltY))
+        rotate(-5deg);
+
+    transform-style: preserve-3d;
+
+    transition:
+        transform 0.15s ease-out,
+        filter 0.12s steps(2);
+
+    will-change: transform;
+}
+
+.dreamcard img {
+    width: 100%;
+    height: auto;
+    display: block;
+
+    pointer-events: none;
+    user-select: none;
+}
+
+
+/* =========================
+   HOVER
+========================= */
+
+.dreamcard:hover {
+    transform:
+        translate3d(
+            var(--nearX),
+            calc(var(--nearY) - 6px),
+            0
+        )
+        rotateX(var(--tiltX))
+        rotateY(var(--tiltY))
+        rotate(-5deg)
+        scale(1.02);
+
+    filter:
+        drop-shadow(6px 6px 0 tomato)
+        brightness(1.1);
+}
+
+
+/* =========================
+   PRESS
+========================= */
+
+.dreamcard:active {
+    cursor: grabbing;
+
+    --tiltX: 0deg;
+    --tiltY: 0deg;
+
+    transform:
+        translate3d(
+            var(--nearX),
+            calc(var(--nearY) + 4px),
+            0
+        )
+        rotate(-5deg)
+        scale(0.97);
+
+    filter:
+        drop-shadow(3px 3px 0 tomato)
+        brightness(0.9);
+
+    transition:
+        transform 0.06s steps(2),
+        filter 0.06s steps(2);
+}
+#dream{
+    font-family:"Jersey 25";
+    font-weight: normal;
+    font-size: var(--font-size);
+    color: var(--color-3);
+    transform: scaleY(2.5) rotate(1deg) skewX(-15deg);
+    position: absolute;
+    top:  30%;
+    left: 22%;
+}
+
+/*-------------------------------section2-----------------*/
+
+/* =====================================================
+   SECTION 2
+===================================================== */
+
+.subhero {
+    position: relative;
+
+    width: 100%;
+    height: 100vh;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #5D00B6 0%,
+            #000000 100%
+        );
+}
+
+
+/* =====================================================
+   STARS
+===================================================== */
+
+.section2-stars {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 0;
+
+    pointer-events: none;
+
+    overflow: hidden;
+}
+
+.section2-star {
+    position: absolute;
+
+    width: 3px;
+    height: 3px;
+
+    background: white;
+
+    image-rendering: pixelated;
+
+    pointer-events: none;
+
+    animation:
+        section2Float var(--duration)
+        ease-in-out infinite,
+        section2Blink var(--blink)
+        steps(2) infinite;
+}
+
+
+@keyframes section2Float {
+
+    0% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform:
+            translate(
+                var(--moveX),
+                var(--moveY)
+            );
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+
+@keyframes section2Blink {
+
+    0%,
+    100% {
+        opacity: 0.2;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+
+/* =====================================================
+   BLOCK BASE
+===================================================== */
+
+.subhero .block1,
+.subhero .block2,
+.subhero .block3,
+.subhero .block4,
+.subhero .block5,
+.subhero .block6,
+.subhero .block7 {
+
+    position: absolute;
+
+    opacity: 0;
+
+    cursor: grab;
+
+    user-select: none;
+
+    touch-action: none;
+
+    will-change: transform;
+
+    /*
+       Rất quan trọng:
+       JS sẽ điều khiển transform.
+    */
+
+    transition: none !important;
+}
+
+
+/* Không cho ảnh cản pointer */
+
+.subhero .block1 img,
+.subhero .block2 img,
+.subhero .block3 img,
+.subhero .block4 img,
+.subhero .block5 img,
+.subhero .block6 img,
+.subhero .block7 img {
+
+    pointer-events: none;
+
+    user-select: none;
+
+    -webkit-user-drag: none;
+
+    display: block;
+
+    width: 100%;
+
+    height: auto;
+}
+
+
+/* =====================================================
+   VỊ TRÍ NGANG BAN ĐẦU
+===================================================== */
+
+.block1 {
+    left: 0%;
+    width: 35vw;
+}
+
+.block2 {
+    left: 9%;
+    width: 35vw;
+}
+
+.block3 {
+    left: 35.1%;
+    width: 40vw;
+}
+
+.block4 {
+    left: 46.5%;
+    width: 55vw;
+}
+
+.block5 {
+    left: 25%;
+    width: 55vw;
+
+    z-index: 5;
+}
+
+
+
+
+/* =====================================================
+   TEXT
+===================================================== */
+
+#gamer {
+    font-family: "Jersey 25";
+
+    font-weight: normal;
+
+    font-size: var(--font-size);
+
+    color: var(--accent-color);
+
+    position: absolute;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    z-index: 5;
+
+    transform:
+    scale(3)
+        translateY(-100%)
+       translateX(50%);
+}
+
+
+#adaptable {
+    font-family: "Jersey 25";
+
+    font-weight: normal;
+
+    font-size: var(--font-size);
+
+    color: var(--color-3);
+
+    position: absolute;
+    transform: scale(2);
+    bottom: 25%;
+
+    left: 25%;
+}
+
+
+#iam {
+    font-family: "Jersey 25";
+
+    font-weight: normal;
+
+    font-size: var(--font-size);
+
+    color: var(--accent-color);
+
+    position: absolute;
+    transform: scale(2);
+    bottom: 25%;
+
+    left: 25%;
+}
+
+
+#introvert {
+    font-family: "Jersey 25";
+
+    font-weight: normal;
+
+    font-size: var(--font-size);
+
+    color: var(--accent-color);
+
+    position: absolute;
+    transform: scale(1.5);
+    bottom: 25%;
+
+    left: 20%;
+}
+
+
+#ctr {
+    font-family: "Jersey 25";
+
+    font-weight: normal;
+
+    font-size: var(--font-size);
+
+    color: var(--primary-color);
+
+    position: absolute;
+    transform: scale(2);
+    bottom: 25%;
+
+    left: 25%;
+}
+
+
+
+/* =====================================================
+   DRAGGING
+===================================================== */
+
+.physics-dragging {
+
+    cursor: grabbing !important;
+
+    z-index: 100 !important;
+
+    transition: none !important;
+}
+}
+/* =========================
+   FOOTER
+========================= */
+.footer {
+    position: relative;
+
+    width: 100%;
+    height: 60px;
+    display: flex;
+
+    padding: 8px;
+
+    background: #3d2163;
+
+    z-index: 100;
+}
+
+
+
+/* =========================
+   CONTENT CONTAINER
+========================= */
+
+
+
+
+/* =========================
+   DECORATION
+========================= */
+
+.footer-decoration {
+    font-size: 1.2rem;
+
+    animation:
+        footerFloat 2s steps(2) infinite;
+}
+
+
+@keyframes footerFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-3px);
+    }
+
+}

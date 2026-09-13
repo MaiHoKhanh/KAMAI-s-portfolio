@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1853.55 984.61">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke: #fefffd;
+        stroke-miterlimit: 10;
+        stroke-width: 3px;
+      }
+
+      .cls-3, .cls-2 {
+        opacity: .2;
+      }
+    </style>
+  </defs>
+  <g id="OPENING_VER2" data-name="OPENING VER2">
+    <g>
+      <g class="cls-3">
+        <path class="cls-1" d="M1.52,982.75c53.64,0,107.27,0,160.91,0,563.2,0,1126.4,0,1689.6,0"/>
+        <line class="cls-1" x1="1.52" y1="928.32" x2="1852.03" y2="928.32"/>
+        <line class="cls-1" x1="1.52" y1="873.89" x2="1852.03" y2="873.89"/>
+        <line class="cls-1" x1="1.52" y1="819.47" x2="1852.03" y2="819.47"/>
+        <line class="cls-1" x1="1.52" y1="765.04" x2="1852.03" y2="765.04"/>
+        <line class="cls-1" x1="1.52" y1="710.61" x2="1852.03" y2="710.61"/>
+        <line class="cls-1" x1="1.52" y1="656.19" x2="1852.03" y2="656.19"/>
+        <line class="cls-1" x1="1.52" y1="601.76" x2="1852.03" y2="601.76"/>
+        <line class="cls-1" x1="1.52" y1="547.33" x2="1852.03" y2="547.33"/>
+        <line class="cls-1" x1="1.52" y1="492.91" x2="1852.03" y2="492.91"/>
+        <line class="cls-1" x1="1.52" y1="438.48" x2="1852.03" y2="438.48"/>
+        <line class="cls-1" x1="1.52" y1="384.05" x2="1852.03" y2="384.05"/>
+        <line class="cls-1" x1="1.52" y1="329.63" x2="1852.03" y2="329.63"/>
+        <line class="cls-1" x1="1.52" y1="275.2" x2="1852.03" y2="275.2"/>
+        <line class="cls-1" x1="1.52" y1="220.77" x2="1852.03" y2="220.77"/>
+        <line class="cls-1" x1="1.52" y1="166.34" x2="1852.03" y2="166.34"/>
+        <line class="cls-1" x1="1.52" y1="111.92" x2="1852.03" y2="111.92"/>
+        <line class="cls-1" x1="1.52" y1="57.49" x2="1852.03" y2="57.49"/>
+        <line class="cls-1" x1="1.52" y1="3.06" x2="1852.03" y2="3.06"/>
+        <path class="cls-1" d="M1797.61,0v981.54"/>
+        <path class="cls-1" d="M1740.48,0v982.61"/>
+        <path class="cls-1" d="M1688.75,0v981.64"/>
+        <path class="cls-1" d="M1637.03,0v983.58"/>
+        <path class="cls-1" d="M1579.9,0c0,327.55,0,655.11,0,982.66"/>
+        <path class="cls-1" d="M1525.47,0v981.69"/>
+        <path class="cls-1" d="M1471.04,0v982.66"/>
+        <path class="cls-1" d="M1416.62,0c0,327.55,0,655.11,0,982.66"/>
+        <path class="cls-1" d="M1362.19,0v982.66"/>
+        <path class="cls-1" d="M1307.76,0v982.66"/>
+        <path class="cls-1" d="M1253.34,0c0,328.2,0,656.41,0,984.61"/>
+        <path class="cls-1" d="M1198.91,0c0,326.9,0,653.81,0,980.71"/>
+        <path class="cls-1" d="M1090.06,0v983.63"/>
+        <path class="cls-1" d="M1035.63,0v982.66"/>
+        <path class="cls-1" d="M981.2,0v979.74"/>
+        <path class="cls-1" d="M926.78,0v983.63"/>
+        <path class="cls-1" d="M872.35,0v982.66"/>
+        <path class="cls-1" d="M817.92,0v981.69"/>
+        <path class="cls-1" d="M763.5,0v981.69"/>
+        <path class="cls-1" d="M709.07,0v984.61"/>
+        <path class="cls-1" d="M600.22,0v981.69"/>
+        <path class="cls-1" d="M545.79,0c0,325.93,0,651.86,0,977.79"/>
+        <path class="cls-1" d="M491.36,0v979.66"/>
+        <path class="cls-1" d="M436.94,0v981.69"/>
+        <path class="cls-1" d="M382.51,0v981.69"/>
+        <path class="cls-1" d="M328.08,0v983.63"/>
+        <path class="cls-1" d="M273.66,0v983.63"/>
+        <path class="cls-1" d="M219.23,0v983.54"/>
+        <path class="cls-1" d="M164.8,0v983.63"/>
+        <path class="cls-1" d="M110.37,0c0,326.26,0,652.51,0,978.77"/>
+        <path class="cls-1" d="M55.95,0v981.54"/>
+        <path class="cls-1" d="M1144.48,982.66V0"/>
+        <path class="cls-1" d="M654.64,0v984.61"/>
+      </g>
+      <rect class="cls-2" x="1.5" y="3.06" width="1850.55" height="979.68"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660.39 392.54">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #3d2163;
+      }
+
+      .cls-2 {
+        fill: #71f9d1;
+      }
+
+      .cls-3 {
+        fill: #659bfb;
+      }
+    </style>
+  </defs>
+  <g id="About_page_ver_2" data-name="About page ver 2">
+    <g>
+      <g>
+        <path class="cls-1" d="M660.39,392.54H10.05c-3.35-3.12-6.7-6.24-10.05-9.37C3.35,259.96,6.7,136.74,10.05,13.52L654.94,0l5.45,13.52v379.03Z"/>
+        <rect class="cls-2" x="1.5" y="1.5" width="650.34" height="379.03"/>
+        <path d="M653.34,382.03H0V0h653.34v382.03ZM3,379.03h647.34V3H3v376.03Z"/>
+      </g>
+      <path class="cls-3" d="M627.19,368.51H26.15c-4.88-4.88-7.67-7.67-12.55-12.55V26.06c4.88-4.88,7.67-7.67,12.55-12.55h601.04c4.88,4.88,7.67,7.67,12.55,12.55v329.9c-4.88,4.88-7.67,7.67-12.55,12.55Z"/>
+    </g>
+  </g>
+</svg>
