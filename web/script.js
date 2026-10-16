@@ -178,7 +178,9 @@ const sectionObserver =
     );
 
 
-sectionObserver.observe(subhero);
+if (blockSelectors.some(selector => subhero.querySelector(selector))) {
+    sectionObserver.observe(subhero);
+}
 
 
 /* =====================================================
@@ -995,6 +997,409 @@ function scrambleName() {
 }
 
 scrambleName();
+
+/* =====================================================
+   SECTION 2 TETRIS MINI GAME
+===================================================== */
+
+const section2Views = document.querySelectorAll("[id^='section2-'][id$='-view']");
+const section2Board = document.getElementById("section2-board");
+
+if (section2Board) {
+    const baseRowCount = 10;
+    const columnCount = window.matchMedia("(max-width: 480px)").matches ? 8 : 16;
+    const totalPieces = 7;
+    const aboutMeFacts = [
+        "I'm a dog lover.",
+        "I'm a casual gamer.",
+        "I'm a part-time introvert.",
+        "I'm a Ctrl+Z specialist.",
+        "I love sleeping.",
+        "I also enjoy building model kits."
+    ];
+    const starPiece = {
+        color: "yellow",
+        shape: [
+            [0, 1, 0],
+            [1, 1, 1],
+            [1, 0, 1]
+        ]
+    };
+    const pieceTypes = [
+        { color: "mint", shape: [[1, 1, 1, 1]] },
+        { color: "pink", shape: [[1, 1], [1, 1]] },
+        { color: "coral", shape: [[1, 0, 0], [1, 1, 1]] },
+        { color: "blue", shape: [[0, 0, 1], [1, 1, 1]] },
+        { color: "white", shape: [[1, 1, 0], [0, 1, 1]] },
+        { color: "orange", shape: [[0, 1, 1], [1, 1, 0]] }
+    ];
+
+    const boardCells = [];
+    const gameAside = document.querySelector(".section2-game-aside");
+    let rowCount = baseRowCount;
+    let board = [];
+    let currentPiece = null;
+    let nextPiece = null;
+    let piecesPlayed = 0;
+    let factDeck = [];
+    let gameTimer = null;
+    let gameRunning = false;
+
+    for (let index = 0; index < rowCount * columnCount; index++) {
+        const cell = document.createElement("div");
+        cell.className = "section2-cell";
+        cell.setAttribute("role", "gridcell");
+        section2Board.appendChild(cell);
+        boardCells.push(cell);
+    }
+
+    function showSection2View(viewName) {
+        section2Views.forEach(view => {
+            view.hidden = view.id !== `section2-${viewName}-view`;
+        });
+    }
+
+    function randomPiece(isStar = false) {
+        const selected = isStar
+            ? starPiece
+            : pieceTypes[Math.floor(Math.random() * pieceTypes.length)];
+        const shape = selected.shape.map(row => [...row]);
+
+        return {
+            shape,
+            color: selected.color,
+            isStar,
+            x: Math.floor((columnCount - shape[0].length) / 2),
+            y: 0
+        };
+    }
+
+    function drawPreview(piece) {
+        const preview = document.getElementById("section2-next-piece");
+        preview.replaceChildren();
+        preview.classList.remove("is-done");
+        preview.style.setProperty("--preview-columns", piece.shape[0].length);
+
+        piece.shape.forEach(row => row.forEach(value => {
+            const cell = document.createElement("span");
+            if (value) cell.className = `is-filled tone-${piece.color}`;
+            preview.appendChild(cell);
+        }));
+    }
+
+    function drawDonePreview() {
+        const preview = document.getElementById("section2-next-piece");
+        preview.replaceChildren();
+        preview.classList.add("is-done");
+        preview.textContent = "DONE";
+    }
+
+    function measureFullFactsHeight() {
+        const asideClone = gameAside.cloneNode(true);
+        const factList = asideClone.querySelector(".section2-facts");
+        const asideWidth = gameAside.getBoundingClientRect().width;
+
+        factList.replaceChildren(...aboutMeFacts.map(fact => {
+            const item = document.createElement("li");
+            item.className = "section2-fact";
+            item.textContent = fact;
+            return item;
+        }));
+        asideClone.querySelectorAll("[id]").forEach(element => element.removeAttribute("id"));
+        Object.assign(asideClone.style, {
+            position: "fixed",
+            left: "-10000px",
+            top: "0",
+            width: `${asideWidth}px`,
+            height: "auto",
+            minHeight: "0",
+            visibility: "hidden",
+            pointerEvents: "none"
+        });
+
+        document.body.appendChild(asideClone);
+        const height = asideClone.getBoundingClientRect().height;
+        asideClone.remove();
+        return height;
+    }
+
+    function syncBoardRowsToFacts() {
+        const compactLayout = window.matchMedia(
+            "(max-width: 1100px), (hover: none) and (pointer: coarse)"
+        ).matches;
+        const boardWidth = section2Board.getBoundingClientRect().width;
+        const asideHeight = compactLayout && boardWidth > 0
+            ? measureFullFactsHeight()
+            : gameAside.getBoundingClientRect().height;
+        const boardFrame = section2Board.parentElement;
+        const frameExtraHeight = boardFrame.getBoundingClientRect().height -
+            section2Board.getBoundingClientRect().height;
+        const targetBoardHeight = Math.max(0, asideHeight - frameExtraHeight);
+        const targetRows = compactLayout && boardWidth > 0
+            ? Math.max(baseRowCount, Math.ceil(targetBoardHeight * columnCount / boardWidth))
+            : baseRowCount;
+
+        if (targetRows <= rowCount) return;
+
+        while (rowCount < targetRows) {
+            rowCount++;
+            board.push(Array(columnCount).fill(null));
+
+            for (let columnIndex = 0; columnIndex < columnCount; columnIndex++) {
+                const cell = document.createElement("div");
+                cell.className = "section2-cell";
+                cell.setAttribute("role", "gridcell");
+                section2Board.appendChild(cell);
+                boardCells.push(cell);
+            }
+        }
+
+        section2Board.style.setProperty("--board-visible-rows", rowCount);
+    }
+
+    function collides(shape, x, y) {
+        return shape.some((row, rowIndex) => row.some((value, columnIndex) => {
+            if (!value) return false;
+
+            const nextX = x + columnIndex;
+            const nextY = y + rowIndex;
+
+            return nextX < 0 || nextX >= columnCount || nextY >= rowCount ||
+                (nextY >= 0 && board[nextY][nextX] !== null);
+        }));
+    }
+
+    function renderBoard() {
+        const visibleCells = new Map();
+
+        board.forEach((row, rowIndex) => row.forEach((color, columnIndex) => {
+            if (color) visibleCells.set(rowIndex * columnCount + columnIndex, color);
+        }));
+
+        if (currentPiece) {
+            currentPiece.shape.forEach((row, rowIndex) => row.forEach((value, columnIndex) => {
+                if (!value) return;
+
+                const x = currentPiece.x + columnIndex;
+                const y = currentPiece.y + rowIndex;
+                if (y >= 0 && y < rowCount && x >= 0 && x < columnCount) {
+                    visibleCells.set(y * columnCount + x, currentPiece.color);
+                }
+            }));
+        }
+
+        boardCells.forEach((cell, index) => {
+            const color = visibleCells.get(index);
+            cell.className = color ? `section2-cell is-filled tone-${color}` : "section2-cell";
+        });
+    }
+
+    function updatePieceCount() {
+        document.getElementById("section2-piece-count").textContent = piecesPlayed;
+    }
+
+    function lockPiece() {
+        currentPiece.shape.forEach((row, rowIndex) => row.forEach((value, columnIndex) => {
+            if (value) {
+                const y = currentPiece.y + rowIndex;
+                const x = currentPiece.x + columnIndex;
+                if (y >= 0) board[y][x] = currentPiece.color;
+            }
+        }));
+
+        board = board.filter(row => row.some(cell => cell === null));
+        while (board.length < rowCount) {
+            board.unshift(Array(columnCount).fill(null));
+        }
+
+        piecesPlayed++;
+        updatePieceCount();
+        const landedFact = factDeck[piecesPlayed - 1];
+        if (landedFact) {
+            const factList = document.getElementById("section2-facts");
+            const placeholder = factList.querySelector(".section2-fact-placeholder");
+            if (placeholder) placeholder.remove();
+
+            const factItem = document.createElement("li");
+            factItem.className = "section2-fact";
+            factItem.textContent = landedFact;
+            factList.appendChild(factItem);
+            syncBoardRowsToFacts();
+        }
+
+        if (piecesPlayed >= totalPieces) {
+            drawDonePreview();
+            showThanksOnBoard();
+            return;
+        }
+
+        currentPiece = nextPiece;
+        nextPiece = randomPiece(piecesPlayed === totalPieces - 2);
+        if (currentPiece.isStar) {
+            drawDonePreview();
+        } else {
+            drawPreview(nextPiece);
+        }
+        document.getElementById("section2-live-status").textContent = "IN PLAY";
+
+        if (collides(currentPiece.shape, currentPiece.x, currentPiece.y)) {
+            finishGame();
+            return;
+        }
+
+        renderBoard();
+    }
+
+    function finishGame() {
+        gameRunning = false;
+        window.clearInterval(gameTimer);
+        document.getElementById("section2-live-status").textContent = "FINISHED";
+        showSection2View("ending");
+    }
+
+    function showThanksOnBoard() {
+        gameRunning = false;
+        window.clearInterval(gameTimer);
+        document.getElementById("section2-live-status").textContent = "FINISHED";
+        document.getElementById("section2-game-view").classList.add("is-complete");
+        document.querySelector(".section2-touch-controls").hidden = true;
+        document.getElementById("section2-thanks-overlay").hidden = false;
+    }
+
+    function stepPiece() {
+        if (!gameRunning) return;
+
+        if (!collides(currentPiece.shape, currentPiece.x, currentPiece.y + 1)) {
+            currentPiece.y++;
+            renderBoard();
+        } else {
+            lockPiece();
+        }
+    }
+
+    function rotatePiece() {
+        const rotated = currentPiece.shape[0].map((_, index) =>
+            currentPiece.shape.map(row => row[index]).reverse()
+        );
+        const kickOffsets = [0, -1, 1, -2, 2];
+        const offset = kickOffsets.find(value =>
+            !collides(rotated, currentPiece.x + value, currentPiece.y)
+        );
+
+        if (offset !== undefined) {
+            currentPiece.shape = rotated;
+            currentPiece.x += offset;
+            renderBoard();
+        }
+    }
+
+    function handleGameKey(key) {
+        if (!gameRunning) return;
+
+        if (key === "ArrowLeft" && !collides(currentPiece.shape, currentPiece.x - 1, currentPiece.y)) {
+            currentPiece.x--;
+        } else if (key === "ArrowRight" && !collides(currentPiece.shape, currentPiece.x + 1, currentPiece.y)) {
+            currentPiece.x++;
+        } else if (key === "ArrowDown") {
+            stepPiece();
+            return;
+        } else if (key === "ArrowUp") {
+            rotatePiece();
+            return;
+        }
+
+        renderBoard();
+    }
+
+    function startGame() {
+        window.clearInterval(gameTimer);
+        while (boardCells.length > baseRowCount * columnCount) {
+            boardCells.pop().remove();
+        }
+        rowCount = baseRowCount;
+        section2Board.style.setProperty("--board-visible-rows", rowCount);
+        board = Array.from({ length: rowCount }, () => Array(columnCount).fill(null));
+        piecesPlayed = 0;
+        factDeck = [...aboutMeFacts];
+        for (let index = factDeck.length - 1; index > 0; index--) {
+            const swapIndex = Math.floor(Math.random() * (index + 1));
+            [factDeck[index], factDeck[swapIndex]] = [factDeck[swapIndex], factDeck[index]];
+        }
+        const factList = document.getElementById("section2-facts");
+        factList.replaceChildren();
+        const placeholder = document.createElement("li");
+        placeholder.className = "section2-fact-placeholder";
+        placeholder.textContent = "Land a block to reveal a fact.";
+        factList.appendChild(placeholder);
+        document.getElementById("section2-thanks-overlay").hidden = true;
+        document.getElementById("section2-game-view").classList.remove("is-complete");
+        document.querySelector(".section2-touch-controls").hidden = false;
+        currentPiece = randomPiece();
+        nextPiece = randomPiece();
+        gameRunning = true;
+        updatePieceCount();
+        drawPreview(nextPiece);
+        document.getElementById("section2-live-status").textContent = "IN PLAY";
+        showSection2View("game");
+        syncBoardRowsToFacts();
+        renderBoard();
+        gameTimer = window.setInterval(stepPiece, 1100);
+    }
+
+    document.getElementById("section2-yes").addEventListener("click", () => {
+        showSection2View("ready");
+    });
+
+    document.getElementById("section2-start").addEventListener("click", startGame);
+    document.getElementById("section2-replay").addEventListener("click", startGame);
+    document.getElementById("section2-proceed").addEventListener("click", finishGame);
+
+    document.querySelectorAll("[data-section2-view]").forEach(button => {
+        button.addEventListener("click", () => showSection2View(button.dataset.section2View));
+    });
+
+    document.querySelectorAll("[data-game-key]").forEach(button => {
+        button.addEventListener("click", () => handleGameKey(button.dataset.gameKey));
+    });
+
+    document.addEventListener("keydown", event => {
+        if (!gameRunning || event.altKey || event.ctrlKey || event.metaKey || !event.key.startsWith("Arrow")) return;
+        event.preventDefault();
+        handleGameKey(event.key);
+    });
+
+    window.addEventListener("resize", syncBoardRowsToFacts);
+}
+
+const originalMobileFontSizes = new WeakMap();
+
+function adjustMobileTextSizes() {
+    const isMobile = window.matchMedia("(max-width: 480px)").matches;
+
+    document.querySelectorAll("body *").forEach(element => {
+        const hasDirectText = Array.from(element.childNodes).some(node =>
+            node.nodeType === Node.TEXT_NODE && node.textContent.trim()
+        );
+
+        if (!hasDirectText || element.closest(".section2-game")) return;
+
+        if (!originalMobileFontSizes.has(element)) {
+            originalMobileFontSizes.set(element, element.style.fontSize);
+        }
+
+        element.style.fontSize = originalMobileFontSizes.get(element);
+        if (!isMobile) return;
+
+        const currentSize = parseFloat(getComputedStyle(element).fontSize);
+        if (Number.isFinite(currentSize)) {
+            element.style.fontSize = `${Math.max(1, currentSize - 1)}px`;
+        }
+    });
+}
+
+adjustMobileTextSizes();
+window.addEventListener("resize", adjustMobileTextSizes);
+
 // descard
 const cards = document.querySelectorAll(".descard, .dreamcard");
 
@@ -1353,37 +1758,39 @@ for (let i = 0; i < 40; i++) {
    CREATE FLOATING PIXELS
 ================================================== */
 
-for (let i = 0; i < 100; i++) {
+if (bgEffects) {
+    for (let i = 0; i < 100; i++) {
 
-    const pixel =
-        document.createElement("span");
+        const pixel =
+            document.createElement("span");
 
-    pixel.classList.add("pixel");
+        pixel.classList.add("pixel");
 
-    pixel.style.left =
-        Math.random() * 100 + "%";
+        pixel.style.left =
+            Math.random() * 100 + "%";
 
-    pixel.style.top =
-        50 + Math.random() * 55 + "%";
-    pixel.style.bottom =
-        50 + Math.random() * 55 + "%";
+        pixel.style.top =
+            50 + Math.random() * 55 + "%";
+        pixel.style.bottom =
+            50 + Math.random() * 55 + "%";
 
-    pixel.style.background =
-        sparkColors[
-            Math.floor(
-                Math.random() * sparkColors.length
-            )
-        ];
+        pixel.style.background =
+            sparkColors[
+                Math.floor(
+                    Math.random() * sparkColors.length
+                )
+            ];
 
-    pixel.style.setProperty(
-        "--duration",
-        (3 + Math.random() * 6) + "s"
-    );
+        pixel.style.setProperty(
+            "--duration",
+            (3 + Math.random() * 6) + "s"
+        );
 
-    pixel.style.setProperty(
-        "--delay",
-        (Math.random() * 5) + "s"
-    );
+        pixel.style.setProperty(
+            "--delay",
+            (Math.random() * 5) + "s"
+        );
 
-    bgEffects.appendChild(pixel);
+        bgEffects.appendChild(pixel);
+    }
 }

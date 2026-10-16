@@ -319,6 +319,21 @@ filterButtons.forEach(button => {
 // =========================
 // PROJECT IMAGE SLIDER
 // =========================
+const backToTop = document.getElementById("backToTop");
+
+if (backToTop) {
+    const updateBackToTop = () => {
+        backToTop.classList.toggle("show", window.scrollY > 300);
+    };
+
+    window.addEventListener("scroll", updateBackToTop, { passive: true });
+    updateBackToTop();
+
+    backToTop.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+}
+
 $(document).ready(function () {
 
     $(".slider").slick({

@@ -84,34 +84,95 @@
     </div>
 
     <!-- Section 2 -->
-    <section class="subhero">
-      <div class="section2-stars"></div>
-        <div class="block1">
-            <img src="img/Homepage/b1.svg">
-            <p id="gamer">gamer</p>
+    <section class="subhero section2-flow" id="section2" aria-label="Get to know Kamai">
+        <div class="section2-stars" aria-hidden="true"></div>
+
+        <div class="section2-view section2-question" id="section2-question-view">
+            <p class="section2-kicker">KAMAI.EXE <span>// PERSONAL FILE</span></p>
+            <h2 id="section2-question-title">WANT TO KNOW MORE<br><span>ABOUT MYSELF?</span></h2>
+            <div class="section2-choice-list">
+                <button class="section2-button section2-button-primary" id="section2-yes" type="button">
+                    YES <span aria-hidden="true">&gt;</span>
+                </button>
+                <a class="section2-button section2-button-secondary" href="work.html">
+                    <span>CHECK OUT MY WORK!</span>
+                </a>
+            </div>
+            <span class="section2-corner section2-corner-top" aria-hidden="true"></span>
+            <span class="section2-corner section2-corner-bottom" aria-hidden="true"></span>
         </div>
 
-        <div class="block2">
-            <img src="img/Homepage/b2.svg">
-            <p id="adaptable">dog lover</p>
+        <div class="section2-view section2-ready" id="section2-ready-view" hidden>
+            <div class="section2-ready-heading">
+                <p class="section2-kicker">SIDE QUEST UNLOCKED</p>
+                <h2>ARE YOU READY?</h2>
+            </div>
+            <div class="section2-ready-controls">
+                <p class="section2-instructions">USE ARROWS TO CONTROL</p>
+                <div class="section2-key-guide" aria-label="Left and right move, down drops, up rotates">
+                    <span class="section2-key">&larr;</span>
+                    <span class="section2-key">&darr;</span>
+                    <span class="section2-key">&rarr;</span>
+                    <span class="section2-key section2-key-rotate">&uarr; <small>ROTATE</small></span>
+                </div>
+                <div class="section2-ready-actions">
+                    <button class="section2-button section2-button-primary" id="section2-start" type="button">START GAME <span aria-hidden="true">&gt;</span></button>
+                    <button class="section2-text-button" data-section2-view="question" type="button">BACK</button>
+                </div>
+            </div>
         </div>
 
-        <div class="block3">
-            <img src="img/Homepage/b3.svg">
-            <p id="iam">i am also a...</p>
+        <div class="section2-view section2-game" id="section2-game-view" hidden>
+            <div class="section2-game-header">
+                <div>
+                    <p class="section2-kicker">HAVE FUN!</p>
+                    <h2>KAMAI'S MINI GAME</h2>
+                </div>
+                <p class="section2-piece-count">PIECES <span id="section2-piece-count">0</span><i>/7</i></p>
+            </div>
+
+            <div class="section2-game-layout">
+                <div class="section2-board-frame">
+                    <div class="section2-board" id="section2-board" role="grid" aria-label="Tetris game board"></div>
+                    <div class="section2-thanks-overlay" id="section2-thanks-overlay" hidden>
+                        <div class="section2-thanks-panel">
+                            <p class="section2-kicker">RUN COMPLETE // 07 OF 07</p>
+                            <h3>THAT'S ALL!</h3>
+                            <p>Thanks for playing!</p>
+                            <button class="section2-button section2-button-primary" id="section2-proceed" type="button">PROCEED <span aria-hidden="true">&gt;</span></button>
+                        </div>
+                    </div>
+                </div>
+                <aside class="section2-game-aside">
+                    <p class="section2-aside-label">NEXT UP</p>
+                    <div class="section2-next-piece" id="section2-next-piece" aria-hidden="true"></div>
+                    <p class="section2-aside-label section2-status-label">STATUS</p>
+                    <p class="section2-live-status" id="section2-live-status" aria-live="polite">READY</p>
+                    <p class="section2-aside-label section2-fact-label">ABOUT ME</p>
+                    <ul class="section2-facts" id="section2-facts" aria-live="polite">
+                        <li class="section2-fact-placeholder">Land a block to reveal a fact.</li>
+                    </ul>
+                </aside>
+            </div>
+
+            <div class="section2-touch-controls" aria-label="Game controls">
+                <button type="button" data-game-key="ArrowLeft" aria-label="Move left">&larr;</button>
+                <button type="button" data-game-key="ArrowUp" aria-label="Rotate piece">&uarr;</button>
+                <button type="button" data-game-key="ArrowDown" aria-label="Drop piece">&darr;</button>
+                <button type="button" data-game-key="ArrowRight" aria-label="Move right">&rarr;</button>
+            </div>
+
         </div>
 
-        <div class="block4">
-            <img src="img/Homepage/b4.svg">
-            <p id="introvert">part-time introvert</p>
+        <div class="section2-view section2-ending" id="section2-ending-view" hidden>
+            <p class="section2-kicker">APPRECIATED!</p>
+            <h2>THANK YOU!</h2>
+            <p class="section2-ending-copy">Thanks for taking a little time to get to know me.</p>
+            <div class="section2-ready-actions">
+                <button class="section2-button section2-button-primary" id="section2-replay" type="button"><span aria-hidden="true">&lt;</span> PLAY AGAIN</button>
+                <a class="section2-text-button" href="work.html">CHECK OUT MY WORK! &gt;</a>
+            </div>
         </div>
-
-        <div class="block5">
-            <img src="img/Homepage/b5.svg">
-            <p id="ctr">Ctrl+Z Specialist</p>
-        </div>
-        </div>
-
     </section>
 </main>
 
